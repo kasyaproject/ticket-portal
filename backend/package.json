@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts"
+  },
+  "keywords": [
+    "MERN",
+    "react js",
+    "express",
+    "mongoDb",
+    "node js",
+    "javascript",
+    "ticket.com clone"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "Applikasi untuk pembelian/pemesanan tiket dengan menggunakan MERN Stack",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.3"
+  }
+}
