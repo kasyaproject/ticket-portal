@@ -3,6 +3,7 @@ import * as yup from "yup";
 
 import UserModel from "../models/user.model";
 import { encrypt } from "../utils/encryption";
+import { generateToken } from "../utils/jwt";
 
 type TRegister = {
   fullname: string;
@@ -88,10 +89,13 @@ export default {
       if (!validatePassword)
         return res.status(403).json({ message: "Wrong Password!", data: null });
 
-      // Jika lolos validasi maka proses login
-      res
-        .status(200)
-        .json({ message: "Login Success", data: userByIdentifier });
+      // Jika lolos validasi maka Generta Token jwt
+      const token = generateToken({
+        id: userByIdentifier._id,
+        role: userByIdentifier.role,
+      });
+
+      res.status(200).json({ message: "Login Success", data: token });
     } catch (error) {
       // jika data tidak valid, return error
       const err = error as unknown as Error;
