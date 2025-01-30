@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import * as yup from "yup";
 
 import UserModel from "../models/user.model";
+import { encrypt } from "../utils/encryption";
 
 type TRegister = {
   fullname: string;
@@ -9,6 +10,11 @@ type TRegister = {
   email: string;
   password: string;
   confirmPassword: string;
+};
+
+type TLogin = {
+  identifier: string; // untuk email atau username
+  password: string;
 };
 
 // schema validasi data
@@ -53,6 +59,39 @@ export default {
         message: "Success Registration!",
         data: result,
       });
+    } catch (error) {
+      // jika data tidak valid, return error
+      const err = error as unknown as Error;
+
+      res.status(400).json({ message: err.message, data: null });
+    }
+  },
+
+  // CONTROLLER LOGIN USER
+  async login(req: Request, res: Response) {
+    try {
+      // ambil data dari req.body
+      const { identifier, password } = req.body as unknown as TLogin;
+
+      // ambil data User berdasarkan identifier
+      const userByIdentifier = await UserModel.findOne({
+        $or: [{ email: identifier }, { username: identifier }],
+      });
+
+      if (!userByIdentifier)
+        return res.status(403).json({ message: "User not found!", data: null });
+
+      // validasi data
+      const validatePassword: boolean =
+        encrypt(password) === userByIdentifier.password;
+
+      if (!validatePassword)
+        return res.status(403).json({ message: "Wrong Password!", data: null });
+
+      // Jika lolos validasi maka proses login
+      res
+        .status(200)
+        .json({ message: "Login Success", data: userByIdentifier });
     } catch (error) {
       // jika data tidak valid, return error
       const err = error as unknown as Error;
