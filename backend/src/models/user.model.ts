@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { encrypt } from "../utils/encryption";
 
 export interface User {
   fullname: string;
@@ -52,6 +53,14 @@ const UserSchema = new Schema<User>(
   },
   { timestamps: true }
 );
+
+// Middleware untuk encrypt password sebelum di save di DB
+UserSchema.pre("save", function (next) {
+  const user = this;
+
+  user.password = encrypt(user.password);
+  next();
+});
 
 const UserModel = mongoose.model("Users", UserSchema);
 
