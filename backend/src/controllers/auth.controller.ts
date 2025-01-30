@@ -4,6 +4,7 @@ import * as yup from "yup";
 import UserModel from "../models/user.model";
 import { encrypt } from "../utils/encryption";
 import { generateToken } from "../utils/jwt";
+import { IReqUser } from "../middlewares/auth.middleware";
 
 type TRegister = {
   fullname: string;
@@ -82,7 +83,7 @@ export default {
       if (!userByIdentifier)
         return res.status(403).json({ message: "User not found!", data: null });
 
-      // validasi data
+      // validasi input password dengan password user
       const validatePassword: boolean =
         encrypt(password) === userByIdentifier.password;
 
@@ -96,6 +97,29 @@ export default {
       });
 
       res.status(200).json({ message: "Login Success", data: token });
+    } catch (error) {
+      // jika data tidak valid, return error
+      const err = error as unknown as Error;
+
+      res.status(400).json({ message: err.message, data: null });
+    }
+  },
+
+  async checkMe(req: IReqUser, res: Response) {
+    try {
+      // Ambil data user berdasarkan token
+      const user = req.user;
+
+      // Cari data user berdasarkan id di mongoDb user
+      const result = await UserModel.findById(user?.id);
+
+      if (!result)
+        return res.status(404).json({ message: "User not found!", data: null });
+
+      // Jika data user ditemukan, return data user
+      res
+        .status(200)
+        .json({ message: "Success get user profile!", data: result });
     } catch (error) {
       // jika data tidak valid, return error
       const err = error as unknown as Error;
