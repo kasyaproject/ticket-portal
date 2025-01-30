@@ -4,10 +4,7 @@ const connectMongoDB = async () => {
   const mongoUri = process.env.MONGO_URI || ""; // ambil MONGO_URI dari .env
 
   try {
-    const conn = await mongoose.connect(mongoUri, {
-      serverSelectionTimeoutMS: 5000, // Timeout lebih cepat
-      socketTimeoutMS: 45000, // Maksimum waktu menunggu query
-    });
+    const conn = await mongoose.connect(mongoUri);
 
     console.log(`MongoDB connected: ${conn.connection.host}`);
   } catch (error) {
