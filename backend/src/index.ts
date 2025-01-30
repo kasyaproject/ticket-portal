@@ -12,6 +12,12 @@ dotenv.config(); // untuk mengambil nilai dari file .env
 app.use(bodyParser.json()); // Untuk membaca json dari req.body
 const PORT = process.env.PORT; // Ambil PORT dari .env
 
+// Route API
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Welcome to API for App Ticket Portal by Andika Syamsiana",
+  });
+});
 app.use("/api/auth", authRouter);
 
 app.listen(PORT, () => {
