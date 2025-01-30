@@ -71,6 +71,12 @@ export default {
 
   // CONTROLLER LOGIN USER
   async login(req: Request, res: Response) {
+    /**
+     #swagger.requestBody ={
+      required: true,
+      schema: {$ref: "#/components/schemas/LoginRequest"}
+     }
+     */
     try {
       // ambil data dari req.body
       const { identifier, password } = req.body as unknown as TLogin;
@@ -106,6 +112,11 @@ export default {
   },
 
   async checkMe(req: IReqUser, res: Response) {
+    /**
+      #swagger.security = [{
+        "bearerAuth": []
+      }]
+     */
     try {
       // Ambil data user berdasarkan token
       const user = req.user;
