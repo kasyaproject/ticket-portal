@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import * as yup from "yup";
 
+import UserModel from "../models/user.model";
+
 type TRegister = {
   fullname: string;
   username: string;
@@ -38,14 +40,18 @@ export default {
         confirmPassword,
       });
 
+      const result = await UserModel.create({
+        fullname,
+        username,
+        email,
+        password,
+        // password: await bcrypt.hash(password, 10),
+      });
+
       // proses register user
       res.status(200).json({
         message: "Success Registration!",
-        data: {
-          fullname,
-          username,
-          email,
-        },
+        data: result,
       });
     } catch (error) {
       // jika data tidak valid, return error
