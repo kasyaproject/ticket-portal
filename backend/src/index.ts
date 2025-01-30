@@ -21,7 +21,9 @@ app.get("/", (req, res) => {
 });
 app.use("/api/auth", authRouter);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
-  connectMongoDB(); // Koneksi ke MongoDB
+
+  const result = await connectMongoDB();
+  console.log(result);
 });
