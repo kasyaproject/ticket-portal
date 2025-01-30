@@ -9,7 +9,8 @@ import connectMongoDB from "./db/connectMongoDB";
 const app = express(); // Untuk membuat aplikasi express
 
 dotenv.config(); // untuk mengambil nilai dari file .env
-app.use(bodyParser.json()); // Untuk membaca json dari req.body
+app.use(express.json()); // Untuk membaca json dari req.body
+app.use(express.urlencoded({ extended: true })); // (Opsional) Untuk form-data
 const PORT = process.env.PORT; // Ambil PORT dari .env
 
 // Route API
