@@ -24,7 +24,32 @@ const registerValidateSchema = yup.object({
   fullname: yup.string().required(),
   username: yup.string().required(),
   email: yup.string().email().required(),
-  password: yup.string().required().min(8),
+  password: yup
+    .string()
+    .required()
+    .min(7, "Password must be at least 7 characters")
+    .test(
+      "at-least-one-uppercase-letter",
+      "Password must have at least one uppercase letter",
+      (value) => {
+        if (!value) return false;
+
+        const regex = /^(?=.*[A-Z])/;
+
+        return regex.test(value);
+      }
+    )
+    .test(
+      "at-least-one-number",
+      "Password must have at least one number",
+      (value) => {
+        if (!value) return false;
+
+        const regex = /^(?=.*\d)/;
+
+        return regex.test(value);
+      }
+    ),
   confirmPassword: yup
     .string()
     .required()
@@ -36,6 +61,10 @@ export default {
   async register(req: Request, res: Response) {
     /**
       #swagger.tags = ['Auth']
+      #swagger.requestBody = {
+        required: true,
+        schema: {$ref: '#/components/schemas/RegisterRequest'},
+      }
      */
     // ambil data dari req.body
     const { fullname, username, email, password, confirmPassword } =
@@ -72,6 +101,42 @@ export default {
     }
   },
 
+  // CONTROLLER GET ACTIVATION CODE USER
+  async activation(req: Request, res: Response) {
+    /**
+      #swagger.tags = ['Auth']
+      #swagger.requestBody = {
+        required: true,
+        schema: {$ref: '#/components/schemas/ActivationRequest'},
+      }
+     */
+    try {
+      const { code } = req.body as { code: string };
+
+      const user = await UserModel.findOneAndUpdate(
+        { activationCode: code },
+        {
+          isActive: true,
+        },
+        {
+          new: true,
+        }
+      );
+
+      if (!user)
+        return res.status(403).json({ message: "User not found!", data: null });
+
+      res
+        .status(200)
+        .json({ message: "User successfully activated", data: user });
+    } catch (error) {
+      // jika data tidak valid, return error
+      const err = error as unknown as Error;
+
+      res.status(400).json({ message: err.message, data: null });
+    }
+  },
+
   // CONTROLLER LOGIN USER
   async login(req: Request, res: Response) {
     /**
@@ -85,9 +150,10 @@ export default {
       // ambil data dari req.body
       const { identifier, password } = req.body as unknown as TLogin;
 
-      // ambil data User berdasarkan identifier
+      // ambil data User berdasarkan identifier dan isActive status nya
       const userByIdentifier = await UserModel.findOne({
         $or: [{ email: identifier }, { username: identifier }],
+        isActive: true,
       });
 
       if (!userByIdentifier)
@@ -115,6 +181,7 @@ export default {
     }
   },
 
+  // CONTROLLER GET USER
   async checkMe(req: IReqUser, res: Response) {
     /**
       #swagger.tags = ['Auth']

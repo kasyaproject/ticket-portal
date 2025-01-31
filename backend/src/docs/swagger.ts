@@ -29,6 +29,16 @@ const doc = {
         identifier: "username123",
         password: "password123",
       },
+      RegisterRequest: {
+        fullname: "dika123123",
+        username: "dika123123",
+        email: "dika123123@gmail.com",
+        password: "password123",
+        confirmPassword: "password123",
+      },
+      ActivationRequest: {
+        code: "qwerty1234567890",
+      },
     },
   },
 };
