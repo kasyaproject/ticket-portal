@@ -16,3 +16,5 @@ export const EMAIL_SMTP_PORT: number =
 export const EMAIL_SMTP_HOST: string = process.env.EMAIL_SMTP_HOST || "";
 export const EMAIL_SMTP_SERVICE_NAME: string =
   process.env.EMAIL_SMTP_SERVICE_NAME || "";
+export const CLIENT_HOST: string =
+  process.env.CLIENT_HOST || "http://localhost:5001";

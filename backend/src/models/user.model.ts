@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import { encrypt } from "../utils/encryption";
 
+import { renderMail, sendMail } from "../utils/mail/mail";
+import { CLIENT_HOST, EMAIL_SMTP_USER } from "../utils/env";
+
 export interface User {
   fullname: string;
   username: string;
@@ -10,6 +13,7 @@ export interface User {
   profilePicture: string;
   isActive: boolean;
   activationCode: string;
+  createdAt?: string;
 }
 
 const Schema = mongoose.Schema;
@@ -61,6 +65,33 @@ UserSchema.pre("save", function (next) {
   user.password = encrypt(user.password);
 
   next();
+});
+
+// Middleware untuk generate activation code dan mengirim email
+UserSchema.post("save", async function (doc, next) {
+  try {
+    const user = doc;
+    console.log("send email to : ", user.email);
+
+    const contentMail = await renderMail("registration-success.ejs", {
+      username: user.username,
+      fullname: user.fullname,
+      email: user.email,
+      createdAt: user.createdAt,
+      activationLink: `${CLIENT_HOST}/auth/activation?code=${user.activationCode}`,
+    });
+
+    await sendMail({
+      from: EMAIL_SMTP_USER,
+      to: user.email,
+      subject: "Registrasi Berhasil - Aktivasi akun anda !",
+      content: contentMail,
+    });
+  } catch (error) {
+    console.log(error);
+  } finally {
+    next();
+  }
 });
 
 // Middleware untuk tidak menampilkan password di json response
