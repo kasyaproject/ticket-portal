@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { MONGO_URI } from "../utils/env";
 
 const connectMongoDB = async () => {
-  const mongoUri = process.env.MONGO_URI || ""; // ambil MONGO_URI dari .env
+  const mongoUri = MONGO_URI; // ambil MONGO_URI dari .env
   if (!mongoUri)
     throw new Error("MONGO_URI is not defined in environment variables");
 
