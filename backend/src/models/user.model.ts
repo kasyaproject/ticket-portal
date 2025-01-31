@@ -79,7 +79,7 @@ UserSchema.post("save", async function (doc, next) {
       fullname: user.fullname,
       email: user.email,
       createdAt: user.createdAt,
-      activationLink: `${CLIENT_HOST}/auth/activation?code=${user.activationCode}`,
+      activationLink: `${CLIENT_HOST}/api/auth/activation?code=${user.activationCode}`,
     });
 
     await sendMail({
