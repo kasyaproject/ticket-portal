@@ -17,7 +17,8 @@ export default function docs(app: Express) {
     "/api-docs",
     swaggerUi.serve,
     swaggerUi.setup(swaggerOutput, {
-      customCss: css,
+      customCssUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.css",
     })
   );
 }
