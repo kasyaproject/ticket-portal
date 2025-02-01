@@ -15,9 +15,8 @@ async function init() {
     console.log("Database Status: ", db);
 
     const app = express(); // Untuk membuat aplikasi express
-    app.use(cors());
-    docs(app);
 
+    app.use(cors());
     app.use(bodyParser.json()); // Untuk membaca json dari req.body
     app.use(express.urlencoded({ extended: true })); // (Opsional) Untuk form-data
 
@@ -28,6 +27,7 @@ async function init() {
       });
     });
     app.use("/api/auth", authRouter);
+    docs(app);
 
     app.listen(PORT, async () => {
       console.log(`Server is running on port http://localhost:${PORT}`);
