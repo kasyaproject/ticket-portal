@@ -1,9 +1,10 @@
 import AuthLayout from "@/components/layouts/AuthLayout";
+import RegisterSuccess from "@/components/views/RegisterSuccess";
 
 const RegisterSuccessPage = () => {
   return (
     <AuthLayout title="Ticket Portal | Register Success">
-      <h1>RegisterSuccessPage</h1>
+      <RegisterSuccess />
     </AuthLayout>
   );
 };

@@ -30,10 +30,13 @@ const Login = () => {
 
       <Card>
         <CardBody className="p-8">
-          <h2 className="text-xl font-bold text-danger-500">Login</h2>
+          <h2 className="text-xl font-bold text-primary-500">Login</h2>
           <p className="mb-4 font-semibold text-small">
             Don't have an account?{" "}
-            <Link href="/auth/register" className="text-danger hover:underline">
+            <Link
+              href="/auth/register"
+              className="text-primary hover:underline"
+            >
               Register Here
             </Link>
           </p>
@@ -67,7 +70,7 @@ const Login = () => {
             />
 
             <Button
-              className="text-white shadow-lg bg-gradient-to-tr from-danger-500 to-danger-400"
+              className="text-white shadow-lg bg-gradient-to-tr from-primary-500 to-primary-400"
               radius="md"
             >
               Login
