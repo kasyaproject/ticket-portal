@@ -26,7 +26,7 @@ async function init() {
         message: "Welcome to API for App Ticket Portal by Andika Syamsiana",
       });
     });
-    app.use("/api/auth", authRouter);
+    app.use("/api", authRouter);
     docs(app);
 
     app.listen(PORT, async () => {
