@@ -18,7 +18,7 @@ const instance = axios.create({
   timeout: 60 * 1000,
 });
 
-// Intercept jika ada error di request nya
+// Intercept untuk mengecek ada tidaknya token
 instance.interceptors.request.use(
   async (request) => {
     const session: CostumeSession | null = await getSession();
@@ -31,7 +31,7 @@ instance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Intercept jika ada error di response nya
@@ -41,7 +41,7 @@ instance.interceptors.response.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 export default instance;

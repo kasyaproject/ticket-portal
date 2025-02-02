@@ -34,10 +34,10 @@ const RegisterSuccess = () => {
         <Button
           className="mt-4 font-semibold w-fit"
           variant="bordered"
-          color="danger"
-          onClick={() => route.push("/")}
+          color="primary"
+          onClick={() => route.push("/auth/login")}
         >
-          Back to Home
+          Back to Login
         </Button>
       </div>
     </div>
