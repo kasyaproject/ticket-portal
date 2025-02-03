@@ -1,11 +1,7 @@
 import axios from "axios";
-import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import environment from "@/config/environment";
-
-interface CostumeSession extends Session {
-  accessToken?: string;
-}
+import { SessionExtended } from "@/types/Auth";
 
 const headers = {
   "Content-Type": "application/json",
@@ -21,7 +17,7 @@ const instance = axios.create({
 // Intercept untuk mengecek ada tidaknya token
 instance.interceptors.request.use(
   async (request) => {
-    const session: CostumeSession | null = await getSession();
+    const session: SessionExtended | null = await getSession();
 
     if (session && session.accessToken) {
       request.headers.Authorization = `Bearer ${session.accessToken}`;

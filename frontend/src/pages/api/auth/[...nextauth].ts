@@ -8,9 +8,11 @@ export default NextAuth({
   // Configure one or more authentication providers
   session: {
     strategy: "jwt",
-    maxAge: 60 * 60 * 24,
+    maxAge: 60 * 60 * 24, // 1d expired token
   },
-  secret: environment.AUTH_SECRET,
+
+  secret: environment.AUTH_SECRET, // get from .env
+
   providers: [
     CredentialsProvider({
       id: "Credentials",
@@ -56,6 +58,7 @@ export default NextAuth({
       },
     }),
   ],
+
   callbacks: {
     async jwt({
       token,
