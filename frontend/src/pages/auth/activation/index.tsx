@@ -14,7 +14,7 @@ const ActivationPage = (props: PropsType) => {
   );
 };
 
-// Jalankan fungsi authServices.activation() untuk mendapatkan data aktivasi
+// Jalankan fungsi authServices.activation() sebelum halaman dikirim ke klien untuk mendapatkan data aktivasi
 export async function getServerSideProps(context: { query: { code: string } }) {
   try {
     const result = await authServices.activation({ code: context.query.code });
