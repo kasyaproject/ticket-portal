@@ -1,10 +1,14 @@
-import { Button, Card, CardBody, Input } from "@heroui/react";
+import { Button, Card, CardBody, Input, Spinner } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Controller } from "react-hook-form";
 import { IoIosEye, IoIosEyeOff } from "react-icons/io";
+import useLogin from "./useLogin";
 
 const Login = () => {
+  const { control, handleSubmit, handleLogin, isPendingLogin, errors } =
+    useLogin();
   const [isVisiblePass, setIsVisiblePass] = useState(false);
 
   const toggleVisibilityPass = () => setIsVisiblePass(!isVisiblePass);
@@ -41,39 +45,64 @@ const Login = () => {
             </Link>
           </p>
 
-          <form action="" className="flex flex-col gap-4 w-80">
-            <Input
-              label="Username/Email"
-              type="text"
-              variant="bordered"
-              autoComplete="off"
+          {errors.root && (
+            <p className="mb-4 text-sm text-danger">{errors?.root?.message}</p>
+          )}
+          <form
+            onSubmit={handleSubmit(handleLogin)}
+            className="flex flex-col gap-4 w-80"
+          >
+            <Controller
+              name="identifier"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  label="Username/Email"
+                  type="text"
+                  variant="bordered"
+                  autoComplete="off"
+                  isInvalid={errors.identifier !== undefined}
+                  errorMessage={errors.identifier?.message}
+                />
+              )}
             />
-            <Input
-              label="Password"
-              type={isVisiblePass ? "text" : "password"}
-              variant="bordered"
-              autoComplete="off"
-              endContent={
-                <button
-                  aria-label="toggle password visibility"
-                  className="focus:outline-none"
-                  type="button"
-                  onClick={toggleVisibilityPass}
-                >
-                  {isVisiblePass ? (
-                    <IoIosEye className="text-2xl pointer-events-none text-default-400" />
-                  ) : (
-                    <IoIosEyeOff className="text-2xl pointer-events-none text-default-400" />
-                  )}
-                </button>
-              }
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  label="Password"
+                  type={isVisiblePass ? "text" : "password"}
+                  variant="bordered"
+                  autoComplete="off"
+                  isInvalid={errors.password !== undefined}
+                  errorMessage={errors.password?.message}
+                  endContent={
+                    <button
+                      aria-label="toggle password visibility"
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={toggleVisibilityPass}
+                    >
+                      {isVisiblePass ? (
+                        <IoIosEye className="text-2xl pointer-events-none text-default-400" />
+                      ) : (
+                        <IoIosEyeOff className="text-2xl pointer-events-none text-default-400" />
+                      )}
+                    </button>
+                  }
+                />
+              )}
             />
 
             <Button
+              type="submit"
               className="text-white shadow-lg bg-gradient-to-tr from-primary-500 to-primary-400"
               radius="md"
             >
-              Login
+              {isPendingLogin ? <Spinner color="white" size="sm" /> : "Login"}
             </Button>
           </form>
         </CardBody>
