@@ -1,22 +1,22 @@
-import { ReactNode } from "react";
+import { Fragment, ReactNode } from "react";
 import PageHead from "@/components/commons/PageHead";
 
 interface PropTypes {
-  title?: string;
   children: ReactNode;
+  title?: string;
 }
 
 const AuthLayout = (props: PropTypes) => {
-  const { title, children } = props;
+  const { children, title } = props;
 
   return (
-    <>
+    <Fragment>
       <PageHead title={title} />
 
       <section className="min-h-screen p-6 max-w-screen-3xl 3xl:container">
         {children}
       </section>
-    </>
+    </Fragment>
   );
 };
 

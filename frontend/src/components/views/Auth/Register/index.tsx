@@ -16,8 +16,6 @@ const Register = () => {
   const toggleVisibilityPass = () => setIsVisiblePass(!isVisiblePass);
   const toggleVisibilityConfirm = () => setIsVisibleConfirm(!isVisibleConfirm);
 
-  console.log(errors);
-
   return (
     <div className="flex flex-col items-center justify-center w-full gap-10 lg:gap-20 lg:flex-row">
       <div className="flex flex-col items-center justify-center w-full gap-10 lg:w-1/3">

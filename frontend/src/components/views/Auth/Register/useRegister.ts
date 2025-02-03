@@ -1,10 +1,11 @@
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { IRegister } from "@/types/Auth";
-import authServices from "@/services/auth";
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { useMutation } from "@tanstack/react-query";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import { IRegister } from "@/types/Auth";
+import authServices from "@/services/auth.service";
 
 const registerSchema = yup.object().shape({
   fullname: yup.string().required("Please input your Fullname"),
@@ -57,12 +58,14 @@ const useRegister = () => {
     resolver: yupResolver(registerSchema),
   });
 
+  // Register user melalui API dengan axios
   const registerServices = async (payload: IRegister) => {
     const result = await authServices.register(payload);
 
     return result;
   };
 
+  // Menangani response dari registerServices jika berhasil/gagal
   const { mutate: mutateRegister, isPending: isPendingRegister } = useMutation({
     mutationFn: registerServices,
     onError(error) {
