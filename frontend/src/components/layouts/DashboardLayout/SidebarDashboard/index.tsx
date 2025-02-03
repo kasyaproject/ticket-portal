@@ -31,7 +31,7 @@ const SidebarDashboard = (props: PropTypes) => {
       <div>
         <div className="flex justify-center">
           <Image
-            src={"img/general/logo.svg"}
+            src="/img/general/logo.svg"
             alt="logo"
             width={180}
             height={60}
@@ -49,7 +49,9 @@ const SidebarDashboard = (props: PropTypes) => {
             <ListboxItem
               key={item.key}
               className={cn("my-1 h-12 text-2xl", {
-                "bg-primary-500 text-white": item.href === router.pathname,
+                "bg-primary-500 text-white": router.pathname.startsWith(
+                  item.href,
+                ),
               })}
               startContent={item.icon}
               textValue={item.label}
