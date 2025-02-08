@@ -1,47 +1,35 @@
 import { Response } from "express";
 import { IReqUser } from "../utils/interface";
 import uploader from "../utils/uploader";
+import response from "../utils/response";
 
 export default {
   async single(req: IReqUser, res: Response) {
-    if (!req.file)
-      return res.status(400).json({
-        data: null,
-        message: "File is not exist",
-      });
+    if (!req.file) return response.error(res, null, "File not found!");
 
     try {
       const result = await uploader.uploadSingle(
         req.file as Express.Multer.File
       );
 
-      res.status(200).json({
-        data: result,
-        message: "Success upload a file",
-      });
+      response.success(res, result, "Success upload a file");
     } catch (error) {
-      res.status(500).json({ data: null, message: "failed upload file" });
+      response.error(res, null, "failed upload file");
     }
   },
 
   async multiple(req: IReqUser, res: Response) {
     if (!req.files || req.files.length === 0)
-      return res.status(400).json({
-        data: null,
-        message: "File are not exist",
-      });
+      return response.error(res, null, "Files are not found");
 
     try {
       const result = await uploader.uploadMultiple(
         req.files as Express.Multer.File[]
       );
 
-      res.status(200).json({
-        data: result,
-        message: "Success upload files",
-      });
+      response.success(res, result, "Success upload a files");
     } catch (error) {
-      res.status(500).json({ data: null, message: "failed upload files" });
+      response.error(res, null, "failed upload files");
     }
   },
 
@@ -51,12 +39,9 @@ export default {
 
       const result = await uploader.remove(fileUrl);
 
-      res.status(200).json({
-        data: result,
-        message: "Success remove file",
-      });
+      response.success(res, result, "Success remove file");
     } catch (error) {
-      res.status(500).json({ data: null, message: "failed to remove file" });
+      response.error(res, null, "failed to remove file");
     }
   },
 };

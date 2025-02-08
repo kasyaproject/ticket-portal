@@ -5,6 +5,7 @@ import UserModel from "../models/user.model";
 import { encrypt } from "../utils/encryption";
 import { generateToken } from "../utils/jwt";
 import { IReqUser } from "../utils/interface";
+import response from "../utils/response";
 
 type TRegister = {
   fullname: string;
@@ -88,15 +89,10 @@ export default {
       });
 
       // proses register user
-      res.status(200).json({
-        message: "Success Registration!",
-        data: result,
-      });
+      response.success(res, result, "Success Registration!");
     } catch (error) {
       // jika data tidak valid, return error
-      const err = error as unknown as Error;
-
-      res.status(400).json({ message: err.message, data: null });
+      response.error(res, error, "Failed Registration");
     }
   },
 
@@ -122,17 +118,12 @@ export default {
         }
       );
 
-      if (!user)
-        return res.status(403).json({ message: "User not found!", data: null });
+      if (!user) return response.unauthorized(res, "User not found");
 
-      res
-        .status(200)
-        .json({ message: "User successfully activated", data: user });
+      response.success(res, user, "User successfully activated");
     } catch (error) {
       // jika data tidak valid, return error
-      const err = error as unknown as Error;
-
-      res.status(400).json({ message: err.message, data: null });
+      response.error(res, error, "Failed Activated");
     }
   },
 
@@ -156,14 +147,14 @@ export default {
       });
 
       if (!userByIdentifier)
-        return res.status(403).json({ message: "User not found!", data: null });
+        return response.unauthorized(res, "User not found");
 
       // validasi input password dengan password user
       const validatePassword: boolean =
         encrypt(password) === userByIdentifier.password;
 
       if (!validatePassword)
-        return res.status(403).json({ message: "Wrong Password!", data: null });
+        return response.unauthorized(res, "Wrong Password!");
 
       // Jika lolos validasi maka Generta Token jwt
       const token = generateToken({
@@ -171,12 +162,10 @@ export default {
         role: userByIdentifier.role,
       });
 
-      res.status(200).json({ message: "Login Success", data: token });
+      response.success(res, token, "Login Success");
     } catch (error) {
       // jika data tidak valid, return error
-      const err = error as unknown as Error;
-
-      res.status(400).json({ message: err.message, data: null });
+      response.error(res, error, "Login Failed");
     }
   },
 
@@ -195,18 +184,13 @@ export default {
       // Cari data user berdasarkan id di mongoDb user
       const result = await UserModel.findById(user?.id);
 
-      if (!result)
-        return res.status(404).json({ message: "User not found!", data: null });
+      if (!result) return response.unauthorized(res, "User not found!");
 
       // Jika data user ditemukan, return data user
-      res
-        .status(200)
-        .json({ message: "Success get user profile!", data: result });
+      response.success(res, result, "Success get user profile!");
     } catch (error) {
       // jika data tidak valid, return error
-      const err = error as unknown as Error;
-
-      res.status(400).json({ message: err.message, data: null });
+      response.error(res, error, "User not found!");
     }
   },
 };
