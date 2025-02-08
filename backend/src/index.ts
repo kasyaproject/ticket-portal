@@ -4,6 +4,7 @@ import cors from "cors";
 
 // Import routes
 import authRouter from "./routes/auth.routes";
+import mediRouter from "./routes/media.routes";
 import connectMongoDB from "./db/connectMongoDB";
 import docs from "./docs/route";
 import { PORT } from "./utils/env";
@@ -26,8 +27,8 @@ async function init() {
         message: "Welcome to API for App Ticket Portal by Andika Syamsiana",
       });
     });
-    app.use("/api", authRouter);
-    docs(app);
+    app.use("/api", [authRouter, mediRouter]); // all api routes
+    docs(app); // Api Docs
 
     app.listen(PORT, async () => {
       console.log(`Server is running on port http://localhost:${PORT}`);

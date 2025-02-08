@@ -4,7 +4,7 @@ import * as yup from "yup";
 import UserModel from "../models/user.model";
 import { encrypt } from "../utils/encryption";
 import { generateToken } from "../utils/jwt";
-import { IReqUser } from "../middlewares/auth.middleware";
+import { IReqUser } from "../utils/interface";
 
 type TRegister = {
   fullname: string;
@@ -85,7 +85,6 @@ export default {
         username,
         email,
         password,
-        // password: await bcrypt.hash(password, 10),
       });
 
       // proses register user

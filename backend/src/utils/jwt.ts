@@ -1,21 +1,5 @@
-import { Types } from "mongoose";
 import jwt from "jsonwebtoken";
-
-import { User } from "../models/user.model";
-
-export interface IUserToken
-  extends Omit<
-    User,
-    | "password"
-    | "activationCode"
-    | "isActive"
-    | "email"
-    | "fullname"
-    | "profilePicture"
-    | "username"
-  > {
-  id?: Types.ObjectId;
-}
+import { IUserToken } from "./interface";
 
 export const generateToken = (user: IUserToken): string => {
   const secretKey = process.env.SECRET_KEY || ""; // ambil SECRET_KEY dari .env
