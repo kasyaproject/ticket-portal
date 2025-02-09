@@ -1,4 +1,5 @@
 import { Response } from "express";
+import mongoose from "mongoose";
 import * as yup from "yup";
 
 type Pagination = {
@@ -19,15 +20,49 @@ export default {
   },
 
   error(res: Response, error: unknown, message: string) {
+    // Response error dari yup validasi
     if (error instanceof yup.ValidationError) {
       return res.status(400).json({
         meta: {
           status: 400,
           message,
         },
-        data: error.errors,
+        data: { [`${error.path}`]: error.errors[0] },
       });
     }
+
+    // Response error dari mongoose
+    if (error instanceof mongoose.Error) {
+      return res.status(500).json({
+        meta: {
+          status: 500,
+          message: error.message,
+        },
+        dara: error.name,
+      });
+    }
+
+    // Response error dari mongoDB
+    if ((error as any)?.code) {
+      const _err = error as any;
+
+      return res.status(500).json({
+        meta: {
+          status: 500,
+          message: _err.errorResponse.errmsg,
+        },
+        dara: _err,
+      });
+    }
+
+    // Response error default
+    res.status(500).json({
+      meta: {
+        status: 500,
+        message,
+      },
+      data: error,
+    });
   },
 
   unauthorized(res: Response, message: string = "unauthorized") {
