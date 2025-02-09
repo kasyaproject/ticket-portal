@@ -6,6 +6,18 @@ import { FilterQuery } from "mongoose";
 
 export default {
   async create(req: IReqUser, res: Response) {
+    /*
+      #swagger.tags = ['Events']
+      #swagger.security = [{
+        "bearerAuth": {}
+      }]
+      #swagger.requestBody = {
+        required: true,
+        schema: {
+          $ref: "#/components/schemas/EventRequest"
+        }
+      }
+    */
     try {
       const payload = { ...req.body, createdBy: req.user?.id } as TEvent;
 
@@ -19,6 +31,9 @@ export default {
   },
 
   async findAll(req: IReqUser, res: Response) {
+    /*
+      #swagger.tags = ['Events']
+    */
     try {
       const {
         limit = 10,
@@ -59,6 +74,9 @@ export default {
   },
 
   async findOne(req: IReqUser, res: Response) {
+    /*
+      #swagger.tags = ['Events']
+    */
     try {
       const { id } = req.params;
 
@@ -73,6 +91,18 @@ export default {
   },
 
   async update(req: IReqUser, res: Response) {
+    /*
+      #swagger.tags = ['Events']
+      #swagger.security = [{
+        "bearerAuth": {}
+      }]
+      #swagger.requestBody = {
+        required: true,
+        schema: {
+          $ref: "#/components/schemas/EventRequest"
+        }
+      }
+    */
     try {
       const { id } = req.params;
 
@@ -89,6 +119,12 @@ export default {
   },
 
   async remove(req: IReqUser, res: Response) {
+    /*
+      #swagger.tags = ['Events']
+      #swagger.security = [{
+        "bearerAuth": {}
+      }]
+    */
     try {
       const { id } = req.params;
 
@@ -105,6 +141,9 @@ export default {
   },
 
   async findOneBySlug(req: IReqUser, res: Response) {
+    /*
+      #swagger.tags = ['Events']
+    */
     try {
       const { slug } = req.params;
 

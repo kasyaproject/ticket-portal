@@ -31,8 +31,8 @@ async function init() {
       });
     });
     app.use("/api", [
-      authRouter,
       mediaRouter,
+      authRouter,
       categoryRouter,
       regionRouter,
       eventRouter,

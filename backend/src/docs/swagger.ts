@@ -39,11 +39,39 @@ const doc = {
       ActivationRequest: {
         code: "qwerty1234567890",
       },
+      EventRequest: {
+        name: "Event - name",
+        banner: "fileUrl",
+        category: "Event - cat",
+        description: "Event - desc",
+        startDate: "yyyy-mm-dd hh:mm:ss",
+        endDate: "yyyy-mm-dd hh:mm:ss",
+        location: {
+          region: "region id",
+          coordinate: [0, 0],
+        },
+        isOnline: false,
+        isFetured: false,
+      },
+      CategoryRequest: {
+        name: "Cat - name",
+        description: "Cat - desc",
+        icon: "Cat - icon",
+      },
+      MediaRequest: {
+        fileUrl: "",
+      },
     },
   },
 };
 
 const outputFile = "./swagger_output.json";
-const endpointsFiles = ["../routes/auth.routes.ts"];
+const endpointsFiles = [
+  "../routes/auth.routes.ts",
+  "../routes/event.routes.ts",
+  "../routes/category.routes.ts",
+  "../routes/media.routes.ts",
+  "../routes/region.routes.ts",
+];
 
 swaggerAutogen({ openapi: "3.0.0" })(outputFile, endpointsFiles, doc);
