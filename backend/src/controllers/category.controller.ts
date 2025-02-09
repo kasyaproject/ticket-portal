@@ -124,12 +124,6 @@ export default {
       #swagger.security = [{
         "bearerAuth": {}
       }]
-      #swagger.requestBody = {
-        required: true,
-        schema: {
-          $ref: "#/components/schemas/CategoryRequest"
-        }
-      }
     */
     try {
       const { id } = req.params;

@@ -452,22 +452,7 @@
           {
             "bearerAuth": {}
           }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CategoryRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/CategoryRequest"
-              }
-            }
-          }
-        }
+        ]
       }
     },
     "/media/upload-single": {
