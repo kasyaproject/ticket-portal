@@ -10,6 +10,7 @@ import authRouter from "./routes/auth.routes";
 import mediaRouter from "./routes/media.routes";
 import categoryRouter from "./routes/category.routes";
 import regionRouter from "./routes/region.routes";
+import eventRouter from "./routes/event.routes";
 
 async function init() {
   try {
@@ -29,7 +30,13 @@ async function init() {
         message: "Welcome to API for App Ticket Portal by Andika Syamsiana",
       });
     });
-    app.use("/api", [authRouter, mediaRouter, categoryRouter, regionRouter]); // all api routes
+    app.use("/api", [
+      authRouter,
+      mediaRouter,
+      categoryRouter,
+      regionRouter,
+      eventRouter,
+    ]); // all api routes
     docs(app); // Api Docs
 
     app.listen(PORT, async () => {

@@ -45,6 +45,8 @@ export default {
         .sort({ createdAt: -1 })
         .exec();
 
+      if (!result) return response.error(res, null, "Category not found!");
+
       const total = await CategoryModel.countDocuments(query);
 
       response.pagination(
@@ -89,7 +91,7 @@ export default {
   async remove(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const result = await CategoryModel.findByIdAndDelete(id);
+      const result = await CategoryModel.findByIdAndDelete(id, { new: true });
 
       if (!result) return response.error(res, null, "Category not found");
 
