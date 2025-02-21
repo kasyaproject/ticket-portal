@@ -40,7 +40,7 @@ const InputFile = (props: PropsType) => {
         dropCurrent.removeEventListener("drop", handleDrop);
       };
     }
-  }, []);
+  }, [handleDragOver, handleDrop]);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.currentTarget.files;
