@@ -35,7 +35,7 @@ const RegisterSuccess = () => {
           className="mt-4 font-semibold w-fit"
           variant="bordered"
           color="primary"
-          onClick={() => route.push("/auth/login")}
+          onPress={() => route.push("/auth/login")}
         >
           Back to Login
         </Button>

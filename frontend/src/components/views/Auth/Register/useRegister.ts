@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { IRegister } from "@/types/Auth";
 import authServices from "@/services/auth.service";
+import { addToast } from "@heroui/toast";
 
 const registerSchema = yup.object().shape({
   fullname: yup.string().required("Please input your Fullname"),
@@ -68,14 +69,23 @@ const useRegister = () => {
   // Menangani response dari registerServices jika berhasil/gagal
   const { mutate: mutateRegister, isPending: isPendingRegister } = useMutation({
     mutationFn: registerServices,
-    onError(error) {
-      setError("root", {
-        message: error.message,
+    onError: (error) => {
+      addToast({
+        title: "Register Failed",
+        description: error.message + " 😢",
+        variant: "bordered",
+        color: "danger",
       });
     },
     onSuccess: () => {
-      router.push("/auth/register/success");
       reset();
+      addToast({
+        title: "Register Success",
+        description: "Register success you can login now 😊",
+        variant: "bordered",
+        color: "success",
+      });
+      router.push("/auth/register/success");
     },
   });
 

@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signIn } from "next-auth/react";
 import { ILogin } from "@/types/Auth";
+import { addToast } from "@heroui/toast";
 
 const loginSchema = yup.object().shape({
   identifier: yup.string().required("Please input your Username/Email"),
@@ -41,14 +42,23 @@ const useLogin = () => {
   // Menangani response dari loginServices jika berhasil/gagal
   const { mutate: mutateLogin, isPending: isPendingLogin } = useMutation({
     mutationFn: loginService,
-    onError(error) {
-      setError("root", {
-        message: error.message,
+    onError: (error) => {
+      addToast({
+        title: "Login Failed",
+        description: error.message + " 😢",
+        variant: "bordered",
+        color: "danger",
       });
     },
     onSuccess: () => {
-      router.push(callbackUrl);
       reset();
+      addToast({
+        title: "Login Success",
+        description: "Welcome to Ticket Portal 😊",
+        variant: "bordered",
+        color: "success",
+      });
+      router.push(callbackUrl);
     },
   });
 

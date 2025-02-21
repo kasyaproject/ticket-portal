@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { HeroUIProvider } from "@heroui/react";
+import { ToastProvider } from "@heroui/toast";
 import { Inter } from "next/font/google";
 import { cn } from "@/utils/cn";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -28,6 +29,11 @@ export default function App({
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <HeroUIProvider>
+          <ToastProvider
+            placement="top-center"
+            toastOffset={"top-center".includes("top") ? 20 : 0}
+          />
+
           <main className={cn(inter.className)}>
             <Component {...pageProps} />
           </main>
