@@ -8,22 +8,42 @@ import {
 } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Key, ReactNode, useCallback } from "react";
+import { Key, ReactNode, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { COLUM_LISTS_CATEGORY } from "./category.constant";
-import { LIMIT_LISTS } from "@/constants/list.const";
+import useCategory from "./useCategory";
 
 const Category = () => {
-  const { push } = useRouter();
+  const { push, isReady, query } = useRouter();
+  const {
+    currentPage,
+    dataCategory,
+    isRefetchingCategory,
+    currentLimit,
+    isLoadingCategory,
+
+    setURL,
+    handleSearch,
+    handleClearSearch,
+    handleChangePage,
+    handleChangeLimit,
+  } = useCategory();
+
+  useEffect(() => {
+    if (isReady) {
+      setURL();
+    }
+  }, [isReady]);
+
   const renderCell = useCallback(
     (category: Record<string, unknown>, columnKey: Key) => {
       const cellValue = category[columnKey as keyof typeof category];
 
       switch (columnKey) {
-        case "icon":
-          return (
-            <Image src={`${cellValue}`} alt="icon" width={100} height={100} />
-          );
+        // case "icon":
+        //   return (
+        //     <Image src={`${cellValue}`} alt="icon" width={100} height={100} />
+        //   );
         case "actions":
           return (
             <Dropdown>
@@ -54,42 +74,30 @@ const Category = () => {
 
   return (
     <section>
-      <DataTable
-        // Top Content
-        buttonTopContentLabel="Create Category"
-        onChangeSearch={() => {}}
-        onClearSearch={() => {}}
-        onClickButtonTopContent={() => {}}
-        //
-        // Main Content
-        currentPage={1}
-        columns={COLUM_LISTS_CATEGORY} // dari data constant
-        // data dari hit ke API
-        data={[
-          {
-            _id: "1",
-            name: "Category 1",
-            desc: "Desc 1",
-            icon: "/img/general/logo.png",
-            actions: [],
-          },
-          {
-            _id: "2",
-            name: "Category 2",
-            desc: "Desc 2",
-            icon: "/img/general/logo.png",
-            actions: [],
-          },
-        ]}
-        renderCell={renderCell}
-        emptyContent="Category is Empty"
-        //
-        // Bottom Content
-        limit={LIMIT_LISTS[0].label}
-        onChangeLimit={() => {}}
-        onChangePage={() => {}}
-        totalPages={2}
-      />
+      {Object.keys(query).length > 0 && (
+        <DataTable
+          // Top Content
+          buttonTopContentLabel="Create Category"
+          onChangeSearch={handleSearch}
+          onClearSearch={handleClearSearch}
+          onClickButtonTopContent={() => {}}
+          //
+          // Main Content
+          columns={COLUM_LISTS_CATEGORY} // dari data constant
+          // data dari hit ke API
+          data={dataCategory?.data || []}
+          renderCell={renderCell}
+          emptyContent="Category is Empty"
+          isLoading={isLoadingCategory || isRefetchingCategory}
+          //
+          // Bottom Content
+          currentPage={Number(currentPage)}
+          limit={String(currentLimit)}
+          onChangeLimit={handleChangeLimit}
+          onChangePage={handleChangePage}
+          totalPages={dataCategory?.pagination.totalPages}
+        />
+      )}
     </section>
   );
 };
