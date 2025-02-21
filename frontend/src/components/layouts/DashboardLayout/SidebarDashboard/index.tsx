@@ -5,6 +5,7 @@ import { signOut } from "next-auth/react";
 import { CiLogout } from "react-icons/ci";
 import { useRouter } from "next/router";
 import { cn } from "@/utils/cn";
+import Link from "next/link";
 
 interface SidebarItem {
   key: string;
@@ -57,6 +58,8 @@ const SidebarDashboard = (props: PropTypes) => {
               textValue={item.label}
               aria-labelledby={item.label}
               aria-describedby={item.label}
+              as={Link}
+              href={item.href}
             >
               <p className="text-small">{item.label}</p>
             </ListboxItem>
@@ -71,7 +74,7 @@ const SidebarDashboard = (props: PropTypes) => {
           variant="light"
           className="flex items-center justify-start px-2 py-1.5"
           size="lg"
-          onClick={() => signOut()}
+          onPress={() => signOut()}
         >
           <CiLogout />
           Logout

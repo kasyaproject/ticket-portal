@@ -1,11 +1,11 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import MemberDashboard from "@/components/views/Member/Dashboard";
+import MemberCategory from "@/components/views/Member/Category";
 
-const MemberDashboardPage = () => {
+const MemberCategoryPage = () => {
   return (
     <DashboardLayout title="Dashboard" desc="Dashboard Member" type="member">
-      <MemberDashboard />
+      <MemberCategory />
     </DashboardLayout>
   );
 };
-export default MemberDashboardPage;
+export default MemberCategoryPage;
