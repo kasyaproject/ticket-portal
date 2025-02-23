@@ -11,6 +11,7 @@ interface PropsType {
   isUploading?: boolean;
   isDeleting?: boolean;
   isInvalid?: boolean;
+  label?: string;
   name: string;
   onUpload?: (files: FileList) => void;
   onDelete?: () => void;
@@ -25,6 +26,7 @@ const InputFile = (props: PropsType) => {
     isInvalid,
     isUploading,
     isDeleting,
+    label,
     name,
     onUpload,
     onDelete,
@@ -72,6 +74,7 @@ const InputFile = (props: PropsType) => {
 
   return (
     <div>
+      <p className="pl-2 mb-2 text-sm font-medium text-default-700">{label}</p>
       <label
         ref={drop}
         htmlFor={`dropzone-file-${dropZoneId}`}
