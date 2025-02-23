@@ -26,13 +26,20 @@ const AddCategoryModal = (props: PropsTypes) => {
   const {
     control,
     errors,
-    reset,
-    handleSubmitForm,
     handleAddCategory,
-    isPendingAddFile,
+    handleOnClose,
+    handleSubmitForm,
     isPendingAddCategory,
     isSuccessAddCategory,
+
+    preview,
+    handleUploadIcon,
+    isPendingUploadFile,
+    handleDeleteIcon,
+    isPendingDeleteFile,
   } = useAddCategoryModal();
+  const disableSubmit =
+    isPendingAddCategory || isPendingUploadFile || isPendingDeleteFile;
 
   useEffect(() => {
     if (isSuccessAddCategory) {
@@ -47,14 +54,15 @@ const AddCategoryModal = (props: PropsTypes) => {
       isOpen={isOpen}
       placement="center"
       scrollBehavior="inside"
+      onClose={() => handleOnClose(onClose)}
     >
       <form onSubmit={handleSubmitForm(handleAddCategory)}>
         <ModalContent className="m-4">
-          <ModalHeader>Add Category</ModalHeader>
+          <ModalHeader className="font-bold">Add Category</ModalHeader>
 
           <ModalBody>
             <div className="flex flex-col gap-4">
-              <p className="text-sm font-bold">Informations</p>
+              <p className="text-sm font-semibold">Detail Category</p>
               <Controller
                 name="name"
                 control={control}
@@ -86,18 +94,21 @@ const AddCategoryModal = (props: PropsTypes) => {
                 )}
               />
 
-              <p className="text-sm font-bold">Icon</p>
+              <p className="text-sm font-semibold">Icon Category</p>
               <Controller
                 name="icon"
                 control={control}
                 render={({ field: { onChange, value, ...field } }) => (
                   <InputFile
                     {...field}
-                    onChange={(e) => {
-                      onChange(e.currentTarget.files);
-                    }}
+                    onDelete={() => handleDeleteIcon(onChange)}
+                    onUpload={(files) => handleUploadIcon(files, onChange)}
+                    isUploading={isPendingUploadFile}
+                    isDeleting={isPendingDeleteFile}
                     isInvalid={errors.icon !== undefined}
                     errorMessage={errors.icon?.message}
+                    isDropable
+                    preview={typeof preview === "string" ? preview : ""}
                   />
                 )}
               />
@@ -109,8 +120,8 @@ const AddCategoryModal = (props: PropsTypes) => {
               color="primary"
               variant="flat"
               className="font-semibold text-primary"
-              onPress={onClose}
-              disabled={isPendingAddCategory || isPendingAddFile}
+              onPress={() => handleOnClose(onClose)}
+              disabled={disableSubmit}
             >
               Cancel
             </Button>
@@ -120,9 +131,9 @@ const AddCategoryModal = (props: PropsTypes) => {
               type="submit"
               className="font-semibold"
               onPress={onClose}
-              disabled={isPendingAddCategory || isPendingAddFile}
+              disabled={disableSubmit}
             >
-              {isPendingAddCategory || isPendingAddFile ? (
+              {isPendingAddCategory ? (
                 <Spinner size="sm" color="white" />
               ) : (
                 "Create Category"

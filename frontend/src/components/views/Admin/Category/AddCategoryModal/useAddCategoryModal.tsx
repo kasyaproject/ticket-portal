@@ -1,40 +1,64 @@
 import categoryServices from "@/services/category.service";
-import uploadServices from "@/services/upload.service";
-import { ICategory, ICategoryForm } from "@/types/Category";
+import { ICategory } from "@/types/Category";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { addToast } from "@heroui/toast";
+import useMediaHandling from "@/hooks/useMediaHandling";
 
 const schema = yup.object().shape({
   name: yup.string().required("Must input category name"),
   description: yup.string().required("Must input category description"),
-  icon: yup.mixed<FileList>().required("Must input category icon"),
+  icon: yup.mixed<FileList | string>().required("Must input category icon"),
 });
 
 const useAddCategoryModal = () => {
+  const {
+    mutateUploadFile,
+    isPendingUploadFile,
+    mutateDeleteFile,
+    isPendingDeleteFile,
+  } = useMediaHandling();
+
   const {
     control,
     handleSubmit: handleSubmitForm,
     formState: { errors },
     reset,
+    watch,
+    getValues,
+    setValue,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  // Digunakan untuk upload file icon dari category
-  const uploadIcon = async (data: ICategoryForm) => {
-    const formData = new FormData();
-    formData.append("file", data.icon[0]);
+  const preview = watch("icon");
 
-    const {
-      data: {
-        data: { secure_url: icon },
-      },
-    } = await uploadServices.uploadFile(formData);
+  // Untuk upload image agar bisa di preview
+  const handleUploadIcon = (
+    files: FileList,
+    onChange: (files: FileList | undefined) => void,
+  ) => {
+    if (files.length !== 0) {
+      onChange(files);
+      mutateUploadFile({
+        file: files[0],
+        callback: (fileUrl: string) => {
+          setValue("icon", fileUrl);
+        },
+      });
+    }
+  };
 
-    return { name: data.name, description: data.description, icon };
+  // Untuk delete image
+  const handleDeleteIcon = (
+    onChange: (files: FileList | undefined) => void,
+  ) => {
+    const fileUrl = getValues("icon");
+    if (typeof fileUrl === "string") {
+      mutateDeleteFile({ fileUrl, callback: () => onChange(undefined) });
+    }
   };
 
   // Digunakan untuk menambahkan detail kategori baru
@@ -70,32 +94,39 @@ const useAddCategoryModal = () => {
     },
   });
 
-  const { mutate: mutateAddFile, isPending: isPendingAddFile } = useMutation({
-    mutationFn: uploadIcon,
-    onError: (error) => {
-      addToast({
-        title: "Add Icon Category Failed",
-        description: error.message + " 😢",
-        variant: "bordered",
-        color: "danger",
-      });
-    },
-    onSuccess: (payload) => {
-      mutateAddCategory(payload);
-    },
-  });
+  const handleAddCategory = (data: ICategory) => mutateAddCategory(data);
 
-  const handleAddCategory = (data: ICategoryForm) => mutateAddFile(data);
+  const handleOnClose = (onClose: () => void) => {
+    const fileUrl = getValues("icon");
+    if (typeof fileUrl === "string") {
+      mutateDeleteFile({
+        fileUrl,
+        callback: () => {
+          reset();
+          onClose();
+        },
+      });
+    } else {
+      reset();
+      onClose();
+    }
+  };
 
   return {
     control,
     errors,
     reset,
-    handleSubmitForm,
     handleAddCategory,
-    isPendingAddFile,
+    handleOnClose,
+    handleSubmitForm,
     isPendingAddCategory,
     isSuccessAddCategory,
+
+    handleUploadIcon,
+    isPendingUploadFile,
+    handleDeleteIcon,
+    isPendingDeleteFile,
+    preview,
   };
 };
 
