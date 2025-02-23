@@ -14,18 +14,7 @@ const DetailCategory = () => {
     isSuccessUpdateCategory,
   } = useDetailCategory();
 
-  const {
-    handleDeleteIcon,
-    handleUploadIcon,
-    isPendingDeleteFile,
-    isPendingUploadFile,
-
-    controlUpdateIcon,
-    handleSubmitUpdateIcon,
-    errorsUpdateIcon,
-
-    preview,
-  } = useIconTab();
+  const { isPendingUploadFile } = useIconTab();
 
   const {} = useInfoTab();
 

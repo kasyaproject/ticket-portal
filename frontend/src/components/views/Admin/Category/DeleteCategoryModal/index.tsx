@@ -9,7 +9,6 @@ import {
 } from "@heroui/react";
 import useDeleteCategoryModal from "./useDeleteCategoryModal";
 import { Dispatch, SetStateAction, useEffect } from "react";
-import useMediaHandling from "@/hooks/useMediaHandling";
 
 interface PropTypes {
   isOpen: boolean;
