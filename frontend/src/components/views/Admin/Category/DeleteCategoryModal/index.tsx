@@ -63,7 +63,7 @@ const DeleteCategoryModal = (props: PropTypes) => {
             variant="flat"
             className="font-semibold text-primary"
             onPress={() => {
-              onClose;
+              onClose();
               setSelectedCategory("");
             }}
             disabled={isPendingDeleteCategory}
