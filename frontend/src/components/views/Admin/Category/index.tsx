@@ -5,6 +5,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Image,
   useDisclosure,
 } from "@heroui/react";
 // import Image from "next/image";
@@ -14,10 +15,13 @@ import { CiMenuKebab } from "react-icons/ci";
 import { COLUM_LISTS_CATEGORY } from "./category.constant";
 import useCategory from "./useCategory";
 import AddCategoryModal from "./AddCategoryModal";
+import DeleteCategoryModal from "./DeleteCategoryModal";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();
   const {
+    selectedCategory,
+    setSelectedCategory,
     currentPage,
     dataCategory,
     isRefetchingCategory,
@@ -33,6 +37,7 @@ const Category = () => {
   } = useCategory();
 
   const addCategoryModal = useDisclosure();
+  const deleteCategoryModal = useDisclosure();
 
   useEffect(() => {
     if (isReady) {
@@ -45,10 +50,10 @@ const Category = () => {
       const cellValue = category[columnKey as keyof typeof category];
 
       switch (columnKey) {
-        // case "icon":
-        //   return (
-        //     <Image src={`${cellValue}`} alt="icon" width={100} height={100} />
-        //   );
+        case "icon":
+          return (
+            <Image src={`${cellValue}`} alt="icon" width={100} height={100} />
+          );
         case "actions":
           return (
             <Dropdown>
@@ -64,7 +69,14 @@ const Category = () => {
                 >
                   Detail Category
                 </DropdownItem>
-                <DropdownItem key="delete-category" className="text-primary">
+                <DropdownItem
+                  key="delete-category"
+                  className="text-primary"
+                  onPress={() => {
+                    setSelectedCategory(`${category._id}`);
+                    deleteCategoryModal.onOpen();
+                  }}
+                >
                   Delete Category
                 </DropdownItem>
               </DropdownMenu>
@@ -100,12 +112,19 @@ const Category = () => {
           limit={String(currentLimit)}
           onChangeLimit={handleChangeLimit}
           onChangePage={handleChangePage}
-          totalPages={dataCategory?.pagination.totalPages}
+          totalPages={dataCategory?.pagination.totalPage}
         />
       )}
 
       <AddCategoryModal
         {...addCategoryModal}
+        refetchCategory={refetchCategory}
+      />
+
+      <DeleteCategoryModal
+        {...deleteCategoryModal}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
         refetchCategory={refetchCategory}
       />
     </section>
