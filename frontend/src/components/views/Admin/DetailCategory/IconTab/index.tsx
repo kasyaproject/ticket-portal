@@ -1,13 +1,45 @@
 import InputFile from "@/components/ui/InputFile";
-import { Button, Card, CardBody, CardHeader, Skeleton } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Skeleton,
+  Spinner,
+} from "@heroui/react";
 import Image from "next/image";
+import useIconTab from "./useIconTab";
+import { Controller } from "react-hook-form";
+import { useEffect } from "react";
 
 interface PropTypes {
   currentIcon: string;
+  onUpdate: (data: { icon: FileList | string }) => void;
+  isPendingUpdate: boolean;
+  isSuccessUpdate: boolean;
 }
 
 const IconTab = (props: PropTypes) => {
-  const { currentIcon } = props;
+  const { currentIcon, onUpdate, isPendingUpdate, isSuccessUpdate } = props;
+  const {
+    handleDeleteIcon,
+    handleUploadIcon,
+    isPendingDeleteFile,
+    isPendingUploadFile,
+
+    controlUpdateIcon,
+    handleSubmitUpdateIcon,
+    errorsUpdateIcon,
+    resetUpdateIcon,
+
+    preview,
+  } = useIconTab();
+
+  useEffect(() => {
+    if (isSuccessUpdate) {
+      resetUpdateIcon();
+    }
+  }, [isSuccessUpdate]);
 
   return (
     <Card className="w-full p-4 lg:w-1/2">
@@ -21,7 +53,7 @@ const IconTab = (props: PropTypes) => {
       <CardBody>
         <form
           className="flex flex-col gap-4"
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmitUpdateIcon(onUpdate)}
         >
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium text-default-700">Current Icon</p>
@@ -37,14 +69,36 @@ const IconTab = (props: PropTypes) => {
               />
             </Skeleton>
 
-            <InputFile name="icon" isDropable label="Upload New Icon" />
+            <Controller
+              name="icon"
+              control={controlUpdateIcon}
+              render={({ field: { onChange, value, ...field } }) => (
+                <InputFile
+                  {...field}
+                  onDelete={() => handleDeleteIcon(onChange)}
+                  onUpload={(files) => handleUploadIcon(files, onChange)}
+                  isUploading={isPendingUploadFile}
+                  isDeleting={isPendingDeleteFile}
+                  isInvalid={errorsUpdateIcon.icon !== undefined}
+                  errorMessage={errorsUpdateIcon.icon?.message}
+                  isDropable
+                  label="Upload new Icon"
+                  preview={typeof preview === "string" ? preview : ""}
+                />
+              )}
+            />
 
             <Button
               color="primary"
               className="mt-2 disabled:bg-default-500"
               type="submit"
+              disabled={isPendingUploadFile || isPendingUpdate || !preview}
             >
-              Save Changes
+              {isPendingUpdate ? (
+                <Spinner size="sm" color="white"></Spinner>
+              ) : (
+                "Save Changes"
+              )}
             </Button>
           </div>
         </form>
