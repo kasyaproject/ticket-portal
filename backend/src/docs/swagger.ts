@@ -52,6 +52,7 @@ const doc = {
         },
         isOnline: false,
         isFetured: false,
+        isPublish: false,
       },
       CategoryRequest: {
         name: "Cat - name",

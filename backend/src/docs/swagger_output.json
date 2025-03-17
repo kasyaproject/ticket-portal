@@ -804,6 +804,10 @@
           "isFetured": {
             "type": "boolean",
             "example": false
+          },
+          "isPublish": {
+            "type": "boolean",
+            "example": false
           }
         },
         "xml": {
