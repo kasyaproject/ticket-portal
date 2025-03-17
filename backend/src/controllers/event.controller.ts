@@ -43,12 +43,25 @@ export default {
 
       const query: FilterQuery<TEvent> = {};
 
+      // if (search) {
+      //   Object.assign(query, {
+      //     ...query,
+      //     $text: {
+      //       $search: search,
+      //     },
+      //   });
+      // }
+      // pencarian berdasarkan keyword
       if (search) {
         Object.assign(query, {
-          ...query,
-          $text: {
-            $seach: search,
-          },
+          $or: [
+            {
+              name: { $regex: search, $options: "i" },
+            },
+            {
+              description: { $regex: search, $options: "i" },
+            },
+          ],
         });
       }
 
