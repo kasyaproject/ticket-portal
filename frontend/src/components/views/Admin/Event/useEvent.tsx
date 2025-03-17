@@ -1,22 +1,22 @@
 import useChangeUrl from "@/hooks/useChangeUrl";
-import categoryServices from "@/services/category.service";
+import eventServices from "@/services/event.service";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-const useCategory = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+const useEvent = () => {
+  const [selectedEvent, setSelectedEvent] = useState<string>("");
   const router = useRouter();
   const { currentLimit, currentPage, currentSearch } = useChangeUrl();
 
   // ambil data categori dari API dengan parameter params yang sudah ada/baru
-  const getCategories = async () => {
+  const getEvents = async () => {
     let params = `limit=${currentLimit}&page=${currentPage}`;
     if (currentSearch) {
       params += `&search=${currentSearch}`;
     }
 
-    const res = await categoryServices.getCategories(params);
+    const res = await eventServices.getEvents(params);
     const { data } = res;
 
     return data;
@@ -24,25 +24,25 @@ const useCategory = () => {
 
   // digunakan untuk refetch data seperti search/page/limit
   const {
-    data: dataCategory,
-    isLoading: isLoadingCategory,
-    isRefetching: isRefetchingCategory,
-    refetch: refetchCategory,
+    data: dataEvent,
+    isLoading: isLoadingEvent,
+    isRefetching: isRefetchingEvent,
+    refetch: refetchEvent,
   } = useQuery({
-    queryKey: ["Categories", currentPage, currentLimit, currentSearch],
-    queryFn: () => getCategories(),
+    queryKey: ["Events", currentPage, currentLimit, currentSearch],
+    queryFn: () => getEvents(),
     enabled: router.isReady && !!currentPage && !!currentLimit,
   });
 
   return {
-    selectedCategory,
-    setSelectedCategory,
+    selectedEvent,
+    setSelectedEvent,
 
-    dataCategory,
-    isLoadingCategory,
-    isRefetchingCategory,
-    refetchCategory,
+    dataEvent,
+    isLoadingEvent,
+    isRefetchingEvent,
+    refetchEvent,
   };
 };
 
-export default useCategory;
+export default useEvent;

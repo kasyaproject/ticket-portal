@@ -36,7 +36,7 @@ const EventSchema = new Schema<Event>(
     banner: { type: Schema.Types.String, required: true },
     isFetured: { type: Boolean, required: true },
     isOnline: { type: Boolean, required: true },
-    isPublish: { type: Boolean },
+    isPublish: { type: Boolean, required: true },
     category: { type: Schema.Types.ObjectId, ref: "Category", required: true }, // relasi terhadap table Category
     slug: { type: Schema.Types.String, unique: true },
     createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true }, // relasi terhadap table User

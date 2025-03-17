@@ -5,7 +5,7 @@ import useDetailCategory from "./useDetailCategory";
 import useIconTab from "./IconTab/useIconTab";
 import useInfoTab from "./InfoTab/useInfoTab";
 
-const DetailCategory = () => {
+const DetailCategoryView = () => {
   const {
     dataCategory,
 
@@ -40,4 +40,4 @@ const DetailCategory = () => {
     </Tabs>
   );
 };
-export default DetailCategory;
+export default DetailCategoryView;

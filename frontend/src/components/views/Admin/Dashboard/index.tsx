@@ -1,8 +1,8 @@
-const Dashboard = () => {
+const AdminDashboardView = () => {
   return (
     <div>
       <div>Main</div>
     </div>
   );
 };
-export default Dashboard;
+export default AdminDashboardView;
