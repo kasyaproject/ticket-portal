@@ -23,6 +23,6 @@ export const toDateStandard = (date: DateValue) => {
   return result;
 };
 
-export const toInputDate = (date: string) => {
-  const formattedDate = parseAbsoluteToLocal(`${date.replace(" ", "T")}+07:00`);
-};
+// export const toInputDate = (date: string) => {
+//   const formattedDate = parseAbsoluteToLocal(`${date.replace(" ", "T")}+07:00`);
+// };
