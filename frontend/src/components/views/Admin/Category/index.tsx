@@ -1,17 +1,8 @@
 import DataTable from "@/components/ui/DataTable";
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Image,
-  useDisclosure,
-} from "@heroui/react";
+import { Image, useDisclosure } from "@heroui/react";
 // import Image from "next/image";
 import { useRouter } from "next/router";
 import { Key, ReactNode, useCallback, useEffect } from "react";
-import { CiMenuKebab } from "react-icons/ci";
 import { COLUM_LISTS_CATEGORY } from "./category.constant";
 import useCategory from "./useCategory";
 import AddCategoryModal from "./AddCategoryModal";
