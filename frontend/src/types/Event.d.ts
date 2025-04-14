@@ -1,21 +1,26 @@
 interface IEvent {
-  _id?: string;
-  name?: string;
-  slug?: string;
-  category?: string;
-  isFeatured?: boolean;
-  isPublished?: boolean;
-  startDate?: string;
-  endDate?: string;
-  region: {
+  name: string;
+  slug: string;
+  category: string;
+  isFetured: boolean | string;
+  isPublish: boolean | string;
+  isOnline: boolean | string;
+  startDate: string;
+  endDate: string;
+  location?: {
     region: string;
-    coordinte: {
-      x: number;
-      y: number;
-    };
+    coordinates: number[];
   };
-  description?: string;
-  banner?: string | FileList;
+  description: string;
+  banner: string | FileList;
 }
 
-export type { IEvent };
+interface IEventForm extends IEvent {
+  region: string;
+  startDate: DateValue;
+  endDate: DateValue;
+  latitude: string;
+  longitude: string;
+}
+
+export type { IEvent, IEventForm };

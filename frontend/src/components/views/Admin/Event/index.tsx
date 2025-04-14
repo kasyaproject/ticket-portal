@@ -7,11 +7,12 @@ import { COLUM_LISTS_EVENT } from "./event.constant";
 import useEvent from "./useEvent";
 import DropdownAction from "@/components/commons/DropdownAction";
 import AddEventModal from "./AddEventModal";
+import DeleteEventModal from "./DeleteEventModal";
 
 const AdminEventView = () => {
   const { push, isReady, query } = useRouter();
   const addEventModal = useDisclosure();
-  const deleteCategoryModal = useDisclosure();
+  const deleteEventModal = useDisclosure();
 
   const {
     selectedEvent,
@@ -64,7 +65,7 @@ const AdminEventView = () => {
               onPressButtonDetail={() => push(`/admin/event/${event._id}`)}
               onPressButtonDelete={() => {
                 setSelectedEvent(`${event._id}`);
-                deleteCategoryModal.onOpen();
+                deleteEventModal.onOpen();
               }}
             />
           );
@@ -96,12 +97,12 @@ const AdminEventView = () => {
 
       <AddEventModal {...addEventModal} refetchEvent={refetchEvent} />
 
-      {/* <DeleteEventModal
+      <DeleteEventModal
         {...deleteEventModal}
         selectedEvent={selectedEvent}
         setSelectedEvent={setSelectedEvent}
         refetchEvent={refetchEvent}
-      /> */}
+      />
     </section>
   );
 };

@@ -1,5 +1,5 @@
 import eventServices from "@/services/event.service";
-import { IEvent } from "@/types/Event";
+import { IEvent, IEventForm } from "@/types/Event";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -12,6 +12,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
 import { DELAY } from "@/constants/list.const";
+import { toDateStandard } from "@/utils/date";
+import { getLocalTimeZone, now } from "@internationalized/date";
 
 const schema = yup.object().shape({
   name: yup.string().required("Please input event name"),
@@ -19,8 +21,8 @@ const schema = yup.object().shape({
   category: yup.string().required("Please select event category"),
   startDate: yup.mixed<DateValue>().required("Please select event start date"),
   endDate: yup.mixed<DateValue>().required("Please select event end date"),
-  isPublished: yup.string().required("Please select event status"),
-  isFeatured: yup.string().required("Please select event featured"),
+  isPublish: yup.string().required("Please select event status"),
+  isFetured: yup.string().required("Please select event featured"),
   description: yup.string().required("Please input event description"),
   isOnline: yup.string().required("Please select event online status"),
   region: yup.string().required("Please select event region"),
@@ -55,6 +57,9 @@ const useAddEventModal = () => {
   const preview = watch("banner");
   const fileUrl = getValues("banner");
   const [searchRegion, setSearchRegion] = useState("");
+
+  setValue("startDate", now(getLocalTimeZone()));
+  setValue("endDate", now(getLocalTimeZone()));
 
   // Untuk upload image agar bisa di preview
   const handleUploadBanner = (
@@ -104,6 +109,7 @@ const useAddEventModal = () => {
   // Digunakan untuk menambahkan detail kategori baru
   const addEvent = async (payload: IEvent) => {
     const res = await eventServices.addEvent(payload);
+
     return res;
   };
 
@@ -133,7 +139,27 @@ const useAddEventModal = () => {
     },
   });
 
-  const handleAddEvent = (data: IEvent) => mutateAddEvent(data);
+  const handleAddEvent = (data: IEventForm) => {
+    const payload = {
+      ...data,
+      // isFetured: Boolean(data.isFetured),
+      // isPublish: Boolean(data.isPublish),
+      // isOnline: Boolean(data.isOnline),
+      isOnline: data.isOnline === "true" ? true : false,
+      isFetured: data.isFetured === "true" ? true : false,
+      isPublish: data.isPublish === "true" ? true : false,
+      startDate: toDateStandard(data.startDate),
+      endDate: toDateStandard(data.endDate),
+      location: {
+        region: data.region,
+        coordinates: [Number(data.latitude), Number(data.longitude)],
+      },
+      banner: data.banner,
+    };
+    // console.log("payload", payload);
+
+    mutateAddEvent(payload);
+  };
 
   return {
     control,

@@ -20,6 +20,7 @@ import InputFile from "@/components/ui/InputFile";
 import { useEffect } from "react";
 import { ICategory } from "@/types/Category";
 import { IRegency } from "@/types/Category.d copy";
+import { getLocalTimeZone, now } from "@internationalized/date";
 
 interface PropsTypes {
   isOpen: boolean;
@@ -64,6 +65,7 @@ const AddEventModal = (props: PropsTypes) => {
     <Modal
       onOpenChange={onOpenChange}
       isOpen={isOpen}
+      size="2xl"
       placement="center"
       scrollBehavior="inside"
       onClose={() => handleOnClose(onClose)}
@@ -106,21 +108,19 @@ const AddEventModal = (props: PropsTypes) => {
                 <Controller
                   name="category"
                   control={control}
-                  render={({ field }) => (
+                  render={({ field: { onChange, ...field } }) => (
                     <Autocomplete
                       {...field}
                       defaultItems={dataCategory?.data.data || []}
                       className="w-full"
                       label="Event Category"
                       variant="bordered"
+                      onSelectionChange={(value) => onChange(value)}
                       isInvalid={errors.category !== undefined}
                       errorMessage={errors.category?.message}
                     >
                       {(category: ICategory) => (
-                        <AutocompleteItem
-                          value={category._id}
-                          key={category._id}
-                        >
+                        <AutocompleteItem key={`${category._id}`}>
                           {category.name}
                         </AutocompleteItem>
                       )}
@@ -137,6 +137,7 @@ const AddEventModal = (props: PropsTypes) => {
                         {...field}
                         label="Event Start Date"
                         variant="bordered"
+                        defaultValue={now(getLocalTimeZone())}
                         showMonthAndYearPickers
                         isInvalid={errors.startDate !== undefined}
                         errorMessage={errors.startDate?.message}
@@ -151,6 +152,7 @@ const AddEventModal = (props: PropsTypes) => {
                         {...field}
                         label="Event End Date"
                         variant="bordered"
+                        defaultValue={now(getLocalTimeZone())}
                         showMonthAndYearPickers
                         isInvalid={errors.endDate !== undefined}
                         errorMessage={errors.endDate?.message}
@@ -173,15 +175,15 @@ const AddEventModal = (props: PropsTypes) => {
                   )}
                 />
                 <Controller
-                  name="isPublished"
+                  name="isPublish"
                   control={control}
                   render={({ field }) => (
                     <Select
                       {...field}
                       label="Status Event"
                       variant="bordered"
-                      isInvalid={errors.isPublished !== undefined}
-                      errorMessage={errors.isPublished?.message}
+                      isInvalid={errors.isPublish !== undefined}
+                      errorMessage={errors.isPublish?.message}
                       disallowEmptySelection
                     >
                       <SelectItem key="true" value="true">
@@ -194,15 +196,36 @@ const AddEventModal = (props: PropsTypes) => {
                   )}
                 />
                 <Controller
-                  name="isFeatured"
+                  name="isFetured"
                   control={control}
                   render={({ field }) => (
                     <Select
                       {...field}
                       label="Featured Event"
                       variant="bordered"
-                      isInvalid={errors.isFeatured !== undefined}
-                      errorMessage={errors.isFeatured?.message}
+                      isInvalid={errors.isFetured !== undefined}
+                      errorMessage={errors.isFetured?.message}
+                      disallowEmptySelection
+                    >
+                      <SelectItem key="true" value="true">
+                        Yes
+                      </SelectItem>
+                      <SelectItem key="false" value="false">
+                        No
+                      </SelectItem>
+                    </Select>
+                  )}
+                />
+                <Controller
+                  name="isOnline"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      label="Online / Offline Event"
+                      variant="bordered"
+                      isInvalid={errors.isOnline !== undefined}
+                      errorMessage={errors.isOnline?.message}
                       disallowEmptySelection
                     >
                       <SelectItem key="true" value="true">
@@ -235,11 +258,12 @@ const AddEventModal = (props: PropsTypes) => {
                       label="Search Event Region"
                       variant="bordered"
                       onInputChange={(search) => handleSearchRegion(search)}
+                      onSelectionChange={(value) => onChange(value)}
                       isInvalid={errors.region !== undefined}
                       errorMessage={errors.region?.message}
                     >
                       {(regions: IRegency) => (
-                        <AutocompleteItem key={regions.id}>
+                        <AutocompleteItem key={`${regions.id}`}>
                           {regions.name}
                         </AutocompleteItem>
                       )}
@@ -318,8 +342,8 @@ const AddEventModal = (props: PropsTypes) => {
               color="primary"
               type="submit"
               className="font-semibold"
-              onPress={onClose}
               disabled={disableSubmit}
+              // onPress={onClose}
             >
               {isPendingAddEvent ? (
                 <Spinner size="sm" color="white" />
