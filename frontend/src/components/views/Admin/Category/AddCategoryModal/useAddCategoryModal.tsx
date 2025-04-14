@@ -8,17 +8,18 @@ import { addToast } from "@heroui/toast";
 import useMediaHandling from "@/hooks/useMediaHandling";
 
 const schema = yup.object().shape({
-  name: yup.string().required("Must input category name"),
-  description: yup.string().required("Must input category description"),
-  icon: yup.mixed<FileList | string>().required("Must input category icon"),
+  name: yup.string().required("Please input category name"),
+  description: yup.string().required("Please input category description"),
+  icon: yup.mixed<FileList | string>().required("Please input category icon"),
 });
 
 const useAddCategoryModal = () => {
   const {
-    mutateUploadFile,
     isPendingUploadFile,
-    mutateDeleteFile,
     isPendingDeleteFile,
+
+    handleUploadFile,
+    handleDeleteFile,
   } = useMediaHandling();
 
   const {
@@ -34,31 +35,33 @@ const useAddCategoryModal = () => {
   });
 
   const preview = watch("icon");
+  const fileUrl = getValues("icon");
 
   // Untuk upload image agar bisa di preview
   const handleUploadIcon = (
     files: FileList,
     onChange: (files: FileList | undefined) => void,
   ) => {
-    if (files.length !== 0) {
-      onChange(files);
-      mutateUploadFile({
-        file: files[0],
-        callback: (fileUrl: string) => {
-          setValue("icon", fileUrl);
-        },
-      });
-    }
+    handleUploadFile(files, onChange, (fileUrl: string | undefined) => {
+      if (fileUrl) {
+        setValue("icon", fileUrl);
+      }
+    });
   };
 
   // Untuk delete image
   const handleDeleteIcon = (
     onChange: (files: FileList | undefined) => void,
   ) => {
-    const fileUrl = getValues("icon");
-    if (typeof fileUrl === "string") {
-      mutateDeleteFile({ fileUrl, callback: () => onChange(undefined) });
-    }
+    handleDeleteFile(fileUrl, () => onChange(undefined));
+  };
+
+  // Membersihkan form modal saat di close
+  const handleOnClose = (onClose: () => void) => {
+    handleDeleteFile(fileUrl, () => {
+      reset();
+      onClose();
+    });
   };
 
   // Digunakan untuk menambahkan detail kategori baru
@@ -68,6 +71,7 @@ const useAddCategoryModal = () => {
     return res;
   };
 
+  // Menambahkan kategori baru
   const {
     mutate: mutateAddCategory,
     isPending: isPendingAddCategory,
@@ -95,22 +99,6 @@ const useAddCategoryModal = () => {
   });
 
   const handleAddCategory = (data: ICategory) => mutateAddCategory(data);
-
-  const handleOnClose = (onClose: () => void) => {
-    const fileUrl = getValues("icon");
-    if (typeof fileUrl === "string") {
-      mutateDeleteFile({
-        fileUrl,
-        callback: () => {
-          reset();
-          onClose();
-        },
-      });
-    } else {
-      reset();
-      onClose();
-    }
-  };
 
   return {
     control,

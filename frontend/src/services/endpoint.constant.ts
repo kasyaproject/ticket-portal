@@ -3,7 +3,7 @@ const endpoint = {
   CATEGORY: "/category",
   MEDIA: "/media",
   EVENT: "/events",
-  REGION: "/region",
+  REGION: "/regions",
 };
 
 export default endpoint;

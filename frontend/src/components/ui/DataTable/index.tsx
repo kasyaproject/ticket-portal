@@ -51,10 +51,10 @@ const DataTable = (props: PropTypes) => {
 
   const TopContent = useMemo(() => {
     return (
-      <div className="flex flex-col items-start justify-between gap-y-4 lg:flex-row lg:items-center">
+      <div className="flex flex-col items-start justify-between gap-y-4 sm:flex-row lg:items-center">
         <Input
           isClearable
-          className="w-full sm:max-w-[24%]"
+          className="w-full lg:max-w-[40%] sm:max-w-[40%]"
           placeholder="Search..."
           startContent={<CiSearch />}
           onClear={handleClearSearch}

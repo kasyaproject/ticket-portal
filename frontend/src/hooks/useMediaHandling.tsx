@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 
 const useMediaHandling = () => {
   // Untuk Upload Gambar
-  const uploadIcon = async (
+  const uploadFile = async (
     file: File,
     callback: (fileUrl: string) => void,
   ) => {
@@ -13,11 +13,11 @@ const useMediaHandling = () => {
 
     const {
       data: {
-        data: { secure_url: icon },
+        data: { secure_url: fileUrl },
       },
     } = await uploadServices.uploadFile(formData);
 
-    callback(icon);
+    callback(fileUrl);
   };
 
   const { mutate: mutateUploadFile, isPending: isPendingUploadFile } =
@@ -25,7 +25,7 @@ const useMediaHandling = () => {
       mutationFn: (variables: {
         file: File;
         callback: (fileUrl: string) => void;
-      }) => uploadIcon(variables.file, variables.callback),
+      }) => uploadFile(variables.file, variables.callback),
       onError: (error) => {
         addToast({
           title: "Upload file failed",
@@ -37,7 +37,7 @@ const useMediaHandling = () => {
     });
 
   // Untuk Delete Gambar
-  const deleteIcon = async (fileUrl: string, callback: () => void) => {
+  const deleteFile = async (fileUrl: string, callback: () => void) => {
     const response = await uploadServices.deleteFile({ fileUrl });
 
     if (response.data.meta.status === 200) {
@@ -48,7 +48,7 @@ const useMediaHandling = () => {
   const { mutate: mutateDeleteFile, isPending: isPendingDeleteFile } =
     useMutation({
       mutationFn: (variables: { fileUrl: string; callback: () => void }) =>
-        deleteIcon(variables.fileUrl, variables.callback),
+        deleteFile(variables.fileUrl, variables.callback),
       onError: (error) => {
         addToast({
           title: "Delete file failed",
@@ -59,11 +59,41 @@ const useMediaHandling = () => {
       },
     });
 
+  // Untuk upload image agar bisa di preview
+  const handleUploadFile = (
+    files: FileList,
+    onChange: (files: FileList | undefined) => void,
+    callback: (fileUrl?: string) => void,
+  ) => {
+    if (files.length !== 0) {
+      onChange(files);
+      mutateUploadFile({
+        file: files[0],
+        callback,
+      });
+    }
+  };
+
+  // Untuk delete image
+  const handleDeleteFile = (
+    fileUrl: string | FileList | undefined,
+    callback: (files?: FileList | undefined) => void,
+  ) => {
+    if (typeof fileUrl === "string") {
+      mutateDeleteFile({ fileUrl, callback });
+    } else {
+      callback();
+    }
+  };
+
   return {
     mutateUploadFile,
     isPendingUploadFile,
     mutateDeleteFile,
     isPendingDeleteFile,
+
+    handleUploadFile,
+    handleDeleteFile,
   };
 };
 

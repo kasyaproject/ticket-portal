@@ -6,6 +6,7 @@ import { Key, ReactNode, useCallback, useEffect } from "react";
 import { COLUM_LISTS_EVENT } from "./event.constant";
 import useEvent from "./useEvent";
 import DropdownAction from "@/components/commons/DropdownAction";
+import AddEventModal from "./AddEventModal";
 
 const AdminEventView = () => {
   const { push, isReady, query } = useRouter();
@@ -93,13 +94,13 @@ const AdminEventView = () => {
         />
       )}
 
-      {/* <AddCategoryModal {...addEventModal} refetchCategory={refetchEvent} />
+      <AddEventModal {...addEventModal} refetchEvent={refetchEvent} />
 
-      <DeleteCategoryModal
-        {...deleteCategoryModal}
-        selectedCategory={selectedEvent}
-        setSelectedCategory={setSelectedEvent}
-        refetchCategory={refetchEvent}
+      {/* <DeleteEventModal
+        {...deleteEventModal}
+        selectedEvent={selectedEvent}
+        setSelectedEvent={setSelectedEvent}
+        refetchEvent={refetchEvent}
       /> */}
     </section>
   );
