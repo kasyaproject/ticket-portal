@@ -71,7 +71,7 @@ const AddEventModal = (props: PropsTypes) => {
       <form onSubmit={handleSubmitForm(handleAddEvent)}>
         <ModalContent className="m-4">
           <ModalHeader className="font-bold">Add Event</ModalHeader>
-
+          <ModalBody>
             <div className="flex flex-col gap-2">
               {/* Form */}
               <p className="text-sm font-semibold">Detail Event</p>
