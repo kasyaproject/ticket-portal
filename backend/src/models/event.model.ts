@@ -45,10 +45,10 @@ const EventSchema = new Schema<Event>(
     location: {
       type: {
         region: { type: Schema.Types.Number },
-      },
-      coordinates: {
-        type: [Schema.Types.Number],
-        default: [0, 0],
+        coordinates: {
+          type: [Schema.Types.Number],
+          default: [0, 0],
+        },
       },
     },
   },
