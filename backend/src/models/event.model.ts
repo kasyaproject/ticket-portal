@@ -47,8 +47,9 @@ const EventSchema = new Schema<Event>(
         region: Schema.Types.Number,
       },
       coordinates: {
-        type: [Schema.Types.Number],
+        type: [Number],
         default: [0, 0],
+        required: true,
       },
     },
   },
