@@ -13,6 +13,9 @@ const useIconTab = () => {
     isPendingUploadFile,
     mutateDeleteFile,
     isPendingDeleteFile,
+
+    handleUploadFile,
+    handleDeleteFile,
   } = useMediaHandling();
 
   // Resolver untuk Update Icon Category
@@ -29,31 +32,25 @@ const useIconTab = () => {
   });
 
   const preview = watchUpdateIcon("icon");
+  const fileUrl = getValuesUpdateIcon("icon");
 
   // Untuk upload image agar bisa di preview
   const handleUploadIcon = (
     files: FileList,
     onChange: (files: FileList | undefined) => void,
   ) => {
-    if (files.length !== 0) {
-      onChange(files);
-      mutateUploadFile({
-        file: files[0],
-        callback: (fileUrl: string) => {
-          setValueUpdateIcon("icon", fileUrl);
-        },
-      });
-    }
+    handleUploadFile(files, onChange, (fileUrl: string | undefined) => {
+      if (fileUrl) {
+        setValueUpdateIcon("icon", fileUrl);
+      }
+    });
   };
 
   // Untuk delete image
   const handleDeleteIcon = (
     onChange: (files: FileList | undefined) => void,
   ) => {
-    const fileUrl = getValuesUpdateIcon("icon");
-    if (typeof fileUrl === "string") {
-      mutateDeleteFile({ fileUrl, callback: () => onChange(undefined) });
-    }
+    handleDeleteFile(fileUrl, () => onChange(undefined));
   };
 
   return {

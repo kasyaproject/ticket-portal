@@ -50,6 +50,10 @@ const useAddEventModal = () => {
     setValue,
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      startDate: now(getLocalTimeZone()),
+      endDate: now(getLocalTimeZone()),
+    },
   });
 
   const debounce = useDebounce();
@@ -57,9 +61,6 @@ const useAddEventModal = () => {
   const preview = watch("banner");
   const fileUrl = getValues("banner");
   const [searchRegion, setSearchRegion] = useState("");
-
-  setValue("startDate", now(getLocalTimeZone()));
-  setValue("endDate", now(getLocalTimeZone()));
 
   // Untuk upload image agar bisa di preview
   const handleUploadBanner = (
@@ -156,7 +157,6 @@ const useAddEventModal = () => {
       },
       banner: data.banner,
     };
-    // console.log("payload", payload);
 
     mutateAddEvent(payload);
   };

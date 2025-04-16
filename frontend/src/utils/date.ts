@@ -1,5 +1,6 @@
 import { DateValue } from "@heroui/react";
-// import { parseAbsoluteToLocal } from "@internationalized/date";
+import { parseAbsoluteToLocal } from "@internationalized/date";
+import { log } from "console";
 
 const standartTime = (time: number) => {
   if (time < 10) {
@@ -11,8 +12,8 @@ const standartTime = (time: number) => {
 
 export const toDateStandard = (date: DateValue) => {
   const year = date.year;
-  const month = date.month;
-  const day = date.day;
+  const month = String(date.month).padStart(2, "0"); // tambahkan leading zero
+  const day = String(date.day).padStart(2, "0"); // tambahkan leading zero
 
   const hour = "hour" in date ? date.hour : 0;
   const minute = "minute" in date ? date.minute : 0;
@@ -23,6 +24,8 @@ export const toDateStandard = (date: DateValue) => {
   return result;
 };
 
-// export const toInputDate = (date: string) => {
-//   const formattedDate = parseAbsoluteToLocal(`${date.replace(" ", "T")}+07:00`);
-// };
+export const toInputDate = (date: string) => {
+  const formattedDate = parseAbsoluteToLocal(`${date.replace(" ", "T")}+07:00`);
+
+  return formattedDate;
+};

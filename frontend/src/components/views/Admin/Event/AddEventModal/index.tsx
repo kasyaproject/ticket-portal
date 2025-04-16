@@ -20,7 +20,6 @@ import InputFile from "@/components/ui/InputFile";
 import { useEffect } from "react";
 import { ICategory } from "@/types/Category";
 import { IRegency } from "@/types/Category.d copy";
-import { getLocalTimeZone, now } from "@internationalized/date";
 
 interface PropsTypes {
   isOpen: boolean;
@@ -137,8 +136,8 @@ const AddEventModal = (props: PropsTypes) => {
                         {...field}
                         label="Event Start Date"
                         variant="bordered"
-                        defaultValue={now(getLocalTimeZone())}
                         showMonthAndYearPickers
+                        hideTimeZone
                         isInvalid={errors.startDate !== undefined}
                         errorMessage={errors.startDate?.message}
                       />
@@ -152,8 +151,8 @@ const AddEventModal = (props: PropsTypes) => {
                         {...field}
                         label="Event End Date"
                         variant="bordered"
-                        defaultValue={now(getLocalTimeZone())}
                         showMonthAndYearPickers
+                        hideTimeZone
                         isInvalid={errors.endDate !== undefined}
                         errorMessage={errors.endDate?.message}
                       />
@@ -216,6 +215,12 @@ const AddEventModal = (props: PropsTypes) => {
                     </Select>
                   )}
                 />
+              </div>
+
+              <hr className="my-2" />
+
+              <p className="text-sm font-semibold">Location Event</p>
+              <div className="flex flex-col gap-2">
                 <Controller
                   name="isOnline"
                   control={control}
@@ -237,12 +242,6 @@ const AddEventModal = (props: PropsTypes) => {
                     </Select>
                   )}
                 />
-              </div>
-
-              <hr className="my-2" />
-
-              <p className="text-sm font-semibold">Location Event</p>
-              <div className="flex flex-col gap-2">
                 <Controller
                   name="region"
                   control={control}
@@ -304,7 +303,7 @@ const AddEventModal = (props: PropsTypes) => {
 
               <hr className="my-2" />
 
-              <p className="text-sm font-semibold -mb-1">Banner Event</p>
+              <p className="text-sm font-semibold -mb-1">Cover Banner Event</p>
               <div>
                 <Controller
                   name="banner"
