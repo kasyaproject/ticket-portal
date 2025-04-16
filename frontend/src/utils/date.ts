@@ -1,6 +1,5 @@
 import { DateValue } from "@heroui/react";
 import { parseAbsoluteToLocal } from "@internationalized/date";
-import { log } from "console";
 
 const standartTime = (time: number) => {
   if (time < 10) {

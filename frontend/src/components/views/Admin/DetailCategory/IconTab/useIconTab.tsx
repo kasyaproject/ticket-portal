@@ -9,9 +9,7 @@ const schemaUpdateIcon = yup.object().shape({
 
 const useIconTab = () => {
   const {
-    mutateUploadFile,
     isPendingUploadFile,
-    mutateDeleteFile,
     isPendingDeleteFile,
 
     handleUploadFile,
