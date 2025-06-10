@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import response from "../utils/response";
 import CategoryModel, { categoryDAO } from "../models/category.model";
 import { IPaginationQuery, IReqUser } from "../utils/interface";
+import { isValidObjectId } from "mongoose";
 
 export default {
   async create(req: Request, res: Response) {
@@ -81,6 +82,11 @@ export default {
     */
     try {
       const { id } = req.params;
+
+      if (!isValidObjectId(id)) {
+        return response.notFound(res, "Category not found");
+      }
+
       const result = await CategoryModel.findById(id);
 
       if (!result) return response.notFound(res, "Category not found");
@@ -106,6 +112,11 @@ export default {
     */
     try {
       const { id } = req.params;
+
+      if (!isValidObjectId(id)) {
+        return response.notFound(res, "Category not found");
+      }
+
       const result = await CategoryModel.findByIdAndUpdate(id, req.body, {
         new: true,
       });
@@ -127,6 +138,11 @@ export default {
     */
     try {
       const { id } = req.params;
+
+      if (!isValidObjectId(id)) {
+        return response.notFound(res, "Category not found");
+      }
+
       const result = await CategoryModel.findByIdAndDelete(id, { new: true });
 
       if (!result) return response.notFound(res, "Category not found");
