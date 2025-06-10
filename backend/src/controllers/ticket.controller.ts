@@ -22,7 +22,7 @@ export default {
       const {
         limit = 10,
         page = 1,
-        search = "",
+        search,
       } = req.query as unknown as IPaginationQuery;
 
       const query: FilterQuery<TypeTicket> = {};

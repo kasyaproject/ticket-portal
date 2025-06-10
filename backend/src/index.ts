@@ -12,6 +12,7 @@ import categoryRouter from "./routes/category.routes";
 import regionRouter from "./routes/region.routes";
 import eventRouter from "./routes/event.routes";
 import ticketRouter from "./routes/ticket.routes";
+import bannerRouter from "./routes/banner.routes";
 
 async function init() {
   try {
@@ -38,6 +39,7 @@ async function init() {
       regionRouter,
       eventRouter,
       ticketRouter,
+      bannerRouter,
     ]); // all api routes
     docs(app); // Api Docs
 
