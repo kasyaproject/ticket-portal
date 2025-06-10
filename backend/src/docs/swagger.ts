@@ -26,8 +26,8 @@ const doc = {
     },
     schemas: {
       LoginRequest: {
-        identifier: "username123",
-        password: "password123",
+        identifier: "Admin123",
+        password: "Admin123",
       },
       RegisterRequest: {
         fullname: "dika123123",
@@ -49,6 +49,7 @@ const doc = {
         location: {
           region: "region id",
           coordinate: [0, 0],
+          address: "Event - address",
         },
         isOnline: false,
         isFetured: false,

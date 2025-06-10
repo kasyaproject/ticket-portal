@@ -700,11 +700,11 @@
         "properties": {
           "identifier": {
             "type": "string",
-            "example": "username123"
+            "example": "Admin123"
           },
           "password": {
             "type": "string",
-            "example": "password123"
+            "example": "Admin123"
           }
         },
         "xml": {
@@ -794,6 +794,10 @@
                 "items": {
                   "type": "number"
                 }
+              },
+              "address": {
+                "type": "string",
+                "example": "Event - address"
               }
             }
           },
