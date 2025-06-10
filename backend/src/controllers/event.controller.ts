@@ -71,7 +71,7 @@ export default {
         .sort({ createdAt: -1 })
         .exec();
 
-      if (!result) return response.error(res, null, "Event not found!");
+      if (!result) return response.notFound(res, "Event not found!");
 
       const total = await EventModel.countDocuments(query);
 
@@ -95,7 +95,7 @@ export default {
 
       const result = await EventModel.findById(id);
 
-      if (!result) return response.error(res, null, "Event not found!");
+      if (!result) return response.notFound(res, "Event not found!");
 
       response.success(res, result, "Success Find Event");
     } catch (error) {
@@ -123,7 +123,7 @@ export default {
         new: true,
       });
 
-      if (!result) return response.error(res, null, "Event not found!");
+      if (!result) return response.notFound(res, "Event not found!");
 
       response.success(res, result, "Success Update an Event");
     } catch (error) {
@@ -145,7 +145,7 @@ export default {
         new: true,
       });
 
-      if (!result) return response.error(res, null, "Event not found!");
+      if (!result) return response.notFound(res, "Event not found!");
 
       response.success(res, result, "Success Delete an Event");
     } catch (error) {
@@ -162,7 +162,7 @@ export default {
 
       const result = await EventModel.findOne({ slug });
 
-      if (!result) return response.error(res, null, "Event not found!");
+      if (!result) return response.notFound(res, "Event not found!");
 
       response.success(res, result, "Success Find an Event");
     } catch (error) {

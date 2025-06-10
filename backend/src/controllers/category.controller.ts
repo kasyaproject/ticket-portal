@@ -60,7 +60,7 @@ export default {
         .sort({ createdAt: -1 })
         .exec();
 
-      if (!result) return response.error(res, null, "Category not found!");
+      if (!result) return response.notFound(res, "Category not found!");
 
       const total = await CategoryModel.countDocuments(query);
 
@@ -83,7 +83,7 @@ export default {
       const { id } = req.params;
       const result = await CategoryModel.findById(id);
 
-      if (!result) return response.error(res, null, "Category not found");
+      if (!result) return response.notFound(res, "Category not found");
 
       response.success(res, result, "Success find one category");
     } catch (error) {
@@ -110,7 +110,7 @@ export default {
         new: true,
       });
 
-      if (!result) return response.error(res, null, "Category not found");
+      if (!result) return response.notFound(res, "Category not found");
 
       response.success(res, result, "Success update category");
     } catch (error) {
@@ -129,7 +129,7 @@ export default {
       const { id } = req.params;
       const result = await CategoryModel.findByIdAndDelete(id, { new: true });
 
-      if (!result) return response.error(res, null, "Category not found");
+      if (!result) return response.notFound(res, "Category not found");
 
       response.success(res, result, "Success delete category");
     } catch (error) {

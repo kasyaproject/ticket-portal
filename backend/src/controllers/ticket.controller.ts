@@ -43,6 +43,10 @@ export default {
         .sort({ createdAt: -1 })
         .exec();
 
+      if (!result) {
+        return response.notFound(res, "No tickets found");
+      }
+
       const count = await TicketModel.countDocuments(query);
 
       response.pagination(
@@ -66,6 +70,10 @@ export default {
 
       const result = await TicketModel.findById(id);
 
+      if (!result) {
+        return response.notFound(res, "Ticket not found");
+      }
+
       response.success(res, result, "Ticket retrieved successfully");
     } catch (error) {
       response.error(res, error, "Failed to find ticket");
@@ -80,6 +88,10 @@ export default {
         new: true,
       });
 
+      if (!result) {
+        return response.notFound(res, "Ticket not found");
+      }
+
       response.success(res, result, "Ticket updated successfully");
     } catch (error) {
       response.error(res, error, "Failed to update ticket");
@@ -93,6 +105,10 @@ export default {
       const result = await TicketModel.findByIdAndDelete(id, {
         new: true,
       });
+
+      if (!result) {
+        return response.notFound(res, "Ticket not found");
+      }
 
       response.success(res, result, "Ticket removed successfully");
     } catch (error) {
@@ -110,8 +126,8 @@ export default {
 
       const result = await TicketModel.find({ events: eventId }).exec();
 
-      if (!result || result.length === 0) {
-        return response.error(res, null, "No tickets found for this event");
+      if (!result) {
+        return response.notFound(res, "Ticket not found");
       }
 
       response.success(res, result, "Tickets found for the event");

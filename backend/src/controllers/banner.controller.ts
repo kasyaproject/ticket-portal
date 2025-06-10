@@ -42,6 +42,10 @@ export default {
         .sort({ createdAt: -1 })
         .exec();
 
+      if (!result) {
+        return response.notFound(res, "No banners found");
+      }
+
       const count = await BannerModel.countDocuments(query);
 
       response.pagination(
@@ -65,6 +69,10 @@ export default {
 
       const result = await BannerModel.findById(id);
 
+      if (!result) {
+        return response.notFound(res, "Banner not found");
+      }
+
       response.success(res, result, "Banner retrieved successfully");
     } catch (error) {
       response.error(res, error, "Failed to find banner");
@@ -79,6 +87,10 @@ export default {
         new: true,
       });
 
+      if (!result) {
+        return response.notFound(res, "Banner not found");
+      }
+
       response.success(res, result, "Banner updated successfully");
     } catch (error) {
       response.error(res, error, "Failed to update banner");
@@ -92,6 +104,10 @@ export default {
       const result = await BannerModel.findByIdAndDelete(id, {
         new: true,
       });
+
+      if (!result) {
+        return response.notFound(res, "Banner not found");
+      }
 
       response.success(res, result, "Banner removed successfully");
     } catch (error) {
