@@ -19,11 +19,13 @@ export const eventDAO = Yup.object({
   createdBy: Yup.string().required(),
   createdAt: Yup.string(),
   updatedAt: Yup.string(),
-  location: Yup.object().shape({
-    region: Yup.number(),
-    coordinates: Yup.array(),
-    address: Yup.string(),
-  }).required(),
+  location: Yup.object()
+    .shape({
+      region: Yup.number(),
+      coordinates: Yup.array(),
+      address: Yup.string(),
+    })
+    .required(),
 });
 
 export type TEvent = Yup.InferType<typeof eventDAO>;
@@ -60,7 +62,7 @@ const EventSchema = new Schema<Event>(
     },
   },
   { timestamps: true }
-);
+).index({ name: "text" });
 
 // generatae slug sebelum di save ke DB
 EventSchema.pre("save", function () {

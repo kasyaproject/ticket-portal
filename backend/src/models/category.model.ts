@@ -18,7 +18,7 @@ const CategotySchema = new Schema<Category>(
     icon: { type: Schema.Types.String, required: true },
   },
   { timestamps: true }
-);
+).index({ name: "text" });
 
 const CategoryModel = mongoose.model("Category", CategotySchema);
 
