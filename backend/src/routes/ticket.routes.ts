@@ -11,19 +11,66 @@ router.post(
   "/tickets",
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   ticketController.create
+  /*
+  #swagger.tags = ['Tickets']
+  #swagger.security = [{
+    "bearerAuth": {}
+  }]
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      $ref: "#/components/schemas/TicketRequest"
+    }
+  }
+  */
 );
-router.get("/tickets", ticketController.findAll);
+router.get(
+  "/tickets",
+  ticketController.findAll
+  /*
+  #swagger.tags = ['Tickets']
+  */
+);
 router.get(
   "/tickets/:id",
-  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   ticketController.findOne
+  /*
+  #swagger.tags = ['Tickets']
+  */
 );
 router.put(
   "/tickets/:id",
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   ticketController.update
+  /*
+  #swagger.tags = ['Tickets']
+  #swagger.security = [{
+    "bearerAuth": {}
+  }]
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      $ref: "#/components/schemas/TicketRequest"
+    }
+  }
+  */
 );
-router.delete("/tickets/:id", ticketController.remove);
-router.get("/tickets/:eventId/events", ticketController.findByEvent);
+router.delete(
+  "/tickets/:id",
+  ticketController.remove
+  /*
+  #swagger.tags = ['Tickets']
+  #swagger.security = [{
+    "bearerAuth": {}
+  }]
+  */
+);
+router.get(
+  "/tickets/:eventId/events",
+  ticketController.findByEvent
+  /*
+  #swagger.tags = ['Tickets']
+  */
+);
 
 export default router;

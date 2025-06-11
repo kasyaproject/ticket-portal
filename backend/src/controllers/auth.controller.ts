@@ -60,13 +60,6 @@ const registerValidateSchema = yup.object({
 export default {
   // CONTROLLER REGISTER USER
   async register(req: Request, res: Response) {
-    /**
-      #swagger.tags = ['Auth']
-      #swagger.requestBody = {
-        required: true,
-        schema: {$ref: '#/components/schemas/RegisterRequest'},
-      }
-     */
     // ambil data dari req.body
     const { fullname, username, email, password, confirmPassword } =
       req.body as unknown as TRegister;
@@ -98,13 +91,6 @@ export default {
 
   // CONTROLLER GET ACTIVATION CODE USER
   async activation(req: Request, res: Response) {
-    /**
-      #swagger.tags = ['Auth']
-      #swagger.requestBody = {
-        required: true,
-        schema: {$ref: '#/components/schemas/ActivationRequest'},
-      }
-     */
     try {
       const { code } = req.body as { code: string };
 
@@ -129,13 +115,6 @@ export default {
 
   // CONTROLLER LOGIN USER
   async login(req: Request, res: Response) {
-    /**
-     * #swagger.tags = ['Auth']
-     #swagger.requestBody ={
-      required: true,
-      schema: {$ref: "#/components/schemas/LoginRequest"}
-     }
-     */
     try {
       // ambil data dari req.body
       const { identifier, password } = req.body as unknown as TLogin;
@@ -171,12 +150,6 @@ export default {
 
   // CONTROLLER GET USER
   async checkMe(req: IReqUser, res: Response) {
-    /**
-      #swagger.tags = ['Auth']
-      #swagger.security = [{
-        "bearerAuth": []
-      }]
-     */
     try {
       // Ambil data user berdasarkan token
       const user = req.user;

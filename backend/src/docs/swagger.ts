@@ -60,8 +60,20 @@ const doc = {
         description: "Cat - desc",
         icon: "Cat - icon",
       },
-      MediaRequest: {
+      RemoveMediaRequest: {
         fileUrl: "",
+      },
+      BannerRequest: {
+        title: "Banner - title",
+        image: "fileUrl",
+        isShow: true,
+      },
+      TicketRequest: {
+        event: "event id",
+        name: "Ticket - name",
+        description: "Ticket - desc",
+        price: 100000,
+        quota: 100,
       },
     },
   },
@@ -74,6 +86,8 @@ const endpointsFiles = [
   "../routes/category.routes.ts",
   "../routes/media.routes.ts",
   "../routes/region.routes.ts",
+  "../routes/banner.routes.ts",
+  "../routes/ticket.routes.ts",
 ];
 
 swaggerAutogen({ openapi: "3.0.0" })(outputFile, endpointsFiles, doc);

@@ -11,18 +11,60 @@ router.post(
   "/banners",
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   bannerController.create
+  /*
+  #swagger.tags = ['Banners']
+  #swagger.security = [{
+    "bearerAuth": {}
+  }]
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      $ref: "#/components/schemas/BannerRequest"
+    }
+  }
+  */
 );
-router.get("/banners", bannerController.findAll);
-router.get("/banners/:id", bannerController.findOne);
+router.get(
+  "/banners",
+  bannerController.findAll
+  /*
+  #swagger.tags = ['Banners']
+  */
+);
+router.get(
+  "/banners/:id",
+  bannerController.findOne
+  /*
+  #swagger.tags = ['Banners']
+  */
+);
 router.put(
   "/banners/:id",
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   bannerController.update
+  /*
+  #swagger.tags = ['Banners']
+  #swagger.security = [{
+    "bearerAuth": {}
+  }]
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      $ref: "#/components/schemas/BannerRequest"
+    }
+  }
+  */
 );
 router.delete(
   "/banners/:id",
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   bannerController.remove
+  /*
+  #swagger.tags = ['Banners']
+  #swagger.security = [{
+    "bearerAuth": {}
+  }]
+  */
 );
 
 export default router;

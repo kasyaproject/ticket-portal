@@ -6,18 +6,6 @@ import { isValidObjectId } from "mongoose";
 
 export default {
   async create(req: Request, res: Response) {
-    /*
-      #swagger.tags = ['Category']
-      #swagger.security = [{
-        "bearerAuth": {}
-      }]
-      #swagger.requestBody = {
-        required: true,
-        schema: {
-          $ref: "#/components/schemas/CategoryRequest"
-        }
-      }
-    */
     try {
       await categoryDAO.validate(req.body); // validasi terhadap Yup yang ada di model
       const result = await CategoryModel.create(req.body); // buat data category baru
@@ -29,9 +17,6 @@ export default {
   },
 
   async findAll(req: Request, res: Response) {
-    /*
-      #swagger.tags = ['Category']
-    */
     const {
       page = 1,
       limit = 10,
@@ -77,9 +62,6 @@ export default {
   },
 
   async findOne(req: IReqUser, res: Response) {
-    /*
-      #swagger.tags = ['Category']
-    */
     try {
       const { id } = req.params;
 
@@ -98,18 +80,6 @@ export default {
   },
 
   async update(req: Request, res: Response) {
-    /*
-      #swagger.tags = ['Category']
-      #swagger.security = [{
-        "bearerAuth": {}
-      }]
-      #swagger.requestBody = {
-        required: true,
-        schema: {
-          $ref: "#/components/schemas/CategoryRequest"
-        }
-      }
-    */
     try {
       const { id } = req.params;
 
@@ -130,12 +100,6 @@ export default {
   },
 
   async remove(req: Request, res: Response) {
-    /*
-      #swagger.tags = ['Category']
-      #swagger.security = [{
-        "bearerAuth": {}
-      }]
-    */
     try {
       const { id } = req.params;
 

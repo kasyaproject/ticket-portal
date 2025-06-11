@@ -5,28 +5,6 @@ import response from "../utils/response";
 
 export default {
   async single(req: IReqUser, res: Response) {
-    /*
-      #swagger.tags = ['Media']
-      #swagger.security = [{
-        "bearerAuth": {}
-      }]
-      #swagger.requestBody = {
-        required: true,
-        content: {
-          "multipart/form-data": {
-            schema:{
-              type: "object",
-              properties: {
-                file:{
-                  type: "string",
-                  format: "binary"
-                }
-              }
-            }
-          }
-        }
-      }
-    */
     if (!req.file) return response.error(res, null, "File not found!");
 
     try {
@@ -41,31 +19,6 @@ export default {
   },
 
   async multiple(req: IReqUser, res: Response) {
-    /*
-      #swagger.tags = ['Media']
-      #swagger.security = [{
-        "bearerAuth": {}
-      }]
-      #swagger.requestBody = {
-        required: true,
-        content: {
-          "multipart/form-data": {
-            schema:{
-              type: "object",
-              properties: {
-                files:{
-                  type: "array",
-                  items: {
-                    type: "string",
-                    format: "binary"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    */
     if (!req.files || req.files.length === 0)
       return response.error(res, null, "Files are not found");
 
@@ -81,18 +34,6 @@ export default {
   },
 
   async remove(req: IReqUser, res: Response) {
-    /*
-      #swagger.tags = ['Media']
-      #swagger.security = [{
-        "bearerAuth": {}
-      }]
-      #swagger.requestBody = {
-        required: true,
-        schema: {
-          $ref: "#/components/schemas/MediaRequest"
-        }       
-      }
-    */
     try {
       const { fileUrl } = req.body as { fileUrl: string };
 
