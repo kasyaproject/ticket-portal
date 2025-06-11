@@ -270,6 +270,20 @@ const AddEventModal = (props: PropsTypes) => {
                   )}
                 />
 
+                <Controller
+                  name="address"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      label="address"
+                      variant="bordered"
+                      isInvalid={errors.address !== undefined}
+                      errorMessage={errors.address?.message}
+                    />
+                  )}
+                />
+
                 <div className="grid grid-cols-2 gap-2">
                   <Controller
                     name="latitude"
@@ -303,7 +317,7 @@ const AddEventModal = (props: PropsTypes) => {
 
               <hr className="my-2" />
 
-              <p className="text-sm font-semibold -mb-1">Cover Banner Event</p>
+              <p className="-mb-1 text-sm font-semibold">Cover Banner Event</p>
               <div>
                 <Controller
                   name="banner"

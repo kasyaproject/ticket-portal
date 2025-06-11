@@ -50,6 +50,7 @@ const LocationTab = (props: PropTypes) => {
   useEffect(() => {
     setValueUpdateLocation("isOnline", `${dataEvent?.isOnline}`);
     setValueUpdateLocation("region", `${dataEvent?.location?.region}`);
+    setValueUpdateLocation("address", `${dataEvent?.location?.address}`);
     setValueUpdateLocation(
       "latitude",
       `${dataEvent?.location?.coordinates[0]}`,
@@ -139,11 +140,33 @@ const LocationTab = (props: PropTypes) => {
                 )}
               />
             ) : (
-              <div className="h-14 w-full" />
+              <div className="w-full h-14" />
             )}
           </Skeleton>
 
-          <div className="grid lg:grid-cols-2 gap-4">
+          <Skeleton
+            isLoaded={!!dataEvent?.location?.address}
+            className="rounded-lg"
+          >
+            <Controller
+              name="address"
+              control={controlUpdateLocation}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  autoFocus
+                  label="address"
+                  variant="bordered"
+                  type="text"
+                  defaultValue={dataEvent?.address}
+                  isInvalid={errorsUpdateLocation.address !== undefined}
+                  errorMessage={errorsUpdateLocation.address?.message}
+                />
+              )}
+            />
+          </Skeleton>
+
+          <div className="grid gap-4 lg:grid-cols-2">
             <Skeleton
               isLoaded={!!dataEvent?.location?.coordinates[0]}
               className="rounded-lg"

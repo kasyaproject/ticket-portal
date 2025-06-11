@@ -10,6 +10,7 @@ import * as yup from "yup";
 const schemaUpdateLocation = yup.object().shape({
   isOnline: yup.string().required("Please select event status"),
   region: yup.string().required("Please select event region"),
+  address: yup.string().required("Please input event address"),
   longitude: yup.string().required("Please input longitude coordinate"),
   latitude: yup.string().required("Please input latitude coordinate"),
 });

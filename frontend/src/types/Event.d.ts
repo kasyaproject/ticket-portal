@@ -11,17 +11,19 @@ interface IEvent {
   location?: {
     region: string | undefined;
     coordinates: number[];
+    address: string | undefined;
   };
   description?: string;
   banner?: string | FileList;
 }
 
 interface IEventForm extends IEvent {
-  region?: string;
   startDate?: DateValue;
   endDate?: DateValue;
+  region?: string;
   latitude?: string;
   longitude?: string;
+  address?: string;
 }
 
 export type { IEvent, IEventForm };

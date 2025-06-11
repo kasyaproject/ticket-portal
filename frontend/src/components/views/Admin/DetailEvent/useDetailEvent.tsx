@@ -64,6 +64,7 @@ const useDetailEvent = () => {
       location: {
         region: data.region,
         coordinates: [Number(data.latitude), Number(data.longitude)],
+        address: data.address,
       },
     };
 
