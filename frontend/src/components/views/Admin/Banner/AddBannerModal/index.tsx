@@ -28,7 +28,6 @@ const AddBannerModal = (props: PropsTypes) => {
   const {
     control,
     errors,
-    reset,
     handleAddBanner,
     handleOnClose,
     handleSubmitForm,
@@ -37,7 +36,6 @@ const AddBannerModal = (props: PropsTypes) => {
 
     handleUploadImage,
     isPendingUploadFile,
-    handleDeleteImage,
     isPendingDeleteFile,
     preview,
   } = useAddBannerModal();
