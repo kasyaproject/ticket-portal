@@ -5,6 +5,7 @@ const endpoint = {
   MEDIA: "/media",
   REGION: "/regions",
   TICKET: "/tickets",
+  BANNER: "/banners",
 };
 
 export default endpoint;
