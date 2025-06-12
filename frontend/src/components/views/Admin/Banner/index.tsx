@@ -1,12 +1,13 @@
 import DataTable from "@/components/ui/DataTable";
 import { Chip, Image, useDisclosure } from "@heroui/react";
-// import Image from "next/image";
 import { useRouter } from "next/router";
 import { Key, ReactNode, useCallback, useEffect } from "react";
 import { COLUM_LISTS_BANNER } from "./banner.constant";
 import useBanner from "./useBanner";
 import useChangeUrl from "@/hooks/useChangeUrl";
 import DropdownAction from "@/components/commons/DropdownAction";
+import AddBannerModal from "./AddBannerModal";
+import DeleteBannerModal from "./DeleteBannerModal";
 
 const AdminBannerView = () => {
   const { push, isReady, query } = useRouter();
@@ -75,7 +76,7 @@ const AdminBannerView = () => {
         <DataTable
           // Top Content
           buttonTopContentLabel="Create Banner"
-          // onClickButtonTopContent={addBannerModal.onOpen}
+          onClickButtonTopContent={addBannerModal.onOpen}
           //
           // Main Content
           columns={COLUM_LISTS_BANNER} // dari data constant
@@ -90,14 +91,14 @@ const AdminBannerView = () => {
         />
       )}
 
-      {/* <AddBannerModal {...addBannerModal} refetchCategory={refetchBanner} /> */}
+      <AddBannerModal {...addBannerModal} refetchCategory={refetchBanner} />
 
-      {/* <DeleteBannerModal
+      <DeleteBannerModal
         {...deleteBannerModal}
         selectedBanner={selectedBanner}
         setSelectedBanner={setSelectedBanner}
         refetchBanner={refetchBanner}
-      /> */}
+      />
     </section>
   );
 };
