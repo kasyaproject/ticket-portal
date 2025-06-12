@@ -5,6 +5,7 @@ import useDetailEvent from "./useDetailEvent";
 import useIconTab from "./BannerTab/useBannerTab";
 import useInfoTab from "./InfoTab/useInfoTab";
 import LocationTab from "./LocationTab";
+import TicketTab from "./TicketTab";
 
 const DetailEventView = () => {
   const {
@@ -54,6 +55,10 @@ const DetailEventView = () => {
             isPendingUpdate={isPendingUpdateEvent}
             isSuccessUpdate={isSuccessUpdateEvent}
           />
+        </Tab>
+
+        <Tab key="ticket" title="Ticket">
+          <TicketTab />
         </Tab>
       </Tabs>
     </Skeleton>
