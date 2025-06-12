@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction, useEffect } from "react";
 import {
   Button,
   Modal,
@@ -7,37 +8,38 @@ import {
   ModalHeader,
   Spinner,
 } from "@heroui/react";
-import useDeleteEventModal from "./useDeleteEventModal";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import useDeleteTicketModal from "./useDeleteTicketModal";
+import { ITicket } from "@/types/Ticket";
 
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
   onOpenChange: () => void;
-  refetchEvent: () => void;
-  selectedEvent: string;
-  setSelectedEvent: Dispatch<SetStateAction<string>>;
+  refetchTicket: () => void;
+  selectedDataTicket: ITicket | null;
+  setSelectedDataTicket: Dispatch<SetStateAction<ITicket | null>>;
 }
 
-const DeleteEventModal = (props: PropTypes) => {
+const DeleteTicketModal = (props: PropTypes) => {
   const {
     isOpen,
     onClose,
     onOpenChange,
-    selectedEvent,
-    setSelectedEvent,
-    refetchEvent,
+    refetchTicket,
+    selectedDataTicket,
+    setSelectedDataTicket,
   } = props;
-  const { mutateDeleteEvent, isPendingDeleteEvent, isSuccessDeleteEvent } =
-    useDeleteEventModal();
+
+  const { mutateDeleteTicket, isPendingDeleteTicket, isSuccessDeleteTicket } =
+    useDeleteTicketModal();
 
   useEffect(() => {
-    if (isSuccessDeleteEvent) {
+    if (isSuccessDeleteTicket) {
       onClose();
-      refetchEvent();
-      setSelectedEvent("");
+      refetchTicket();
+      setSelectedDataTicket(null);
     }
-  }, [isPendingDeleteEvent]);
+  }, [isSuccessDeleteTicket]);
 
   return (
     <Modal
@@ -47,11 +49,11 @@ const DeleteEventModal = (props: PropTypes) => {
       scrollBehavior="inside"
     >
       <ModalContent className="m-4">
-        <ModalHeader className="font-bold">Delete Event</ModalHeader>
+        <ModalHeader className="font-bold">Delete Ticket</ModalHeader>
 
         <ModalBody>
           <p className="text-medium">
-            Are you sure you want to delete this Event ?
+            Are you sure you want to delete this Ticket ?
           </p>
         </ModalBody>
 
@@ -62,9 +64,9 @@ const DeleteEventModal = (props: PropTypes) => {
             className="font-semibold text-primary"
             onPress={() => {
               onClose();
-              setSelectedEvent("");
+              setSelectedDataTicket(null);
             }}
-            disabled={isPendingDeleteEvent}
+            disabled={isPendingDeleteTicket}
           >
             Cancel
           </Button>
@@ -73,13 +75,13 @@ const DeleteEventModal = (props: PropTypes) => {
             color="primary"
             type="submit"
             className="font-semibold"
-            onPress={() => mutateDeleteEvent(selectedEvent)}
-            disabled={isPendingDeleteEvent}
+            onPress={() => mutateDeleteTicket(`${selectedDataTicket?._id}`)}
+            disabled={isPendingDeleteTicket}
           >
-            {isPendingDeleteEvent ? (
+            {isPendingDeleteTicket ? (
               <Spinner size="sm" color="white" />
             ) : (
-              "Delete Event"
+              "Delete Ticket"
             )}
           </Button>
         </ModalFooter>
@@ -88,4 +90,4 @@ const DeleteEventModal = (props: PropTypes) => {
   );
 };
 
-export default DeleteEventModal;
+export default DeleteTicketModal;

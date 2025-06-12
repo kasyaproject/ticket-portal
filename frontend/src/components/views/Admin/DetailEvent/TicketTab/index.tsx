@@ -1,4 +1,4 @@
-import React, { Fragment, Key, ReactNode, use, useCallback } from "react";
+import React, { Fragment, Key, ReactNode, useCallback, useState } from "react";
 // import UseTicketTab from "./UseTicketTab"; // Adjust the import path as necessary
 import {
   Button,
@@ -13,6 +13,8 @@ import DataTable from "@/components/ui/DataTable";
 import DropdownAction from "@/components/commons/DropdownAction";
 import useTicketTab from "./useTicketTab";
 import AddTicketModal from "./AddTicketModal";
+import DeleteTicketModal from "./DeleteTicketModal";
+import { ITicket } from "@/types/Ticket";
 
 const TicketTab = () => {
   const { dataTicket, refetchTicket, isPendingTicket, isRefetchingTicket } =
@@ -20,6 +22,8 @@ const TicketTab = () => {
   const addTicketModal = useDisclosure();
   const deleteTicketModal = useDisclosure();
   const updateTicketModal = useDisclosure();
+
+  const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
 
   const renderCell = useCallback(
     (ticket: Record<string, unknown>, columnKey: Key) => {
@@ -35,6 +39,7 @@ const TicketTab = () => {
                 updateTicketModal.onOpen();
               }}
               onPressButtonDelete={() => {
+                setSelectedTicket(ticket as ITicket);
                 deleteTicketModal.onOpen();
               }}
             />
@@ -80,6 +85,12 @@ const TicketTab = () => {
         </CardBody>
       </Card>
       <AddTicketModal {...addTicketModal} refetchTicket={refetchTicket} />
+      <DeleteTicketModal
+        {...deleteTicketModal}
+        selectedDataTicket={selectedTicket}
+        setSelectedDataTicket={setSelectedTicket}
+        refetchTicket={refetchTicket}
+      />
     </Fragment>
   );
 };

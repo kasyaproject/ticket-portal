@@ -38,6 +38,7 @@ const DeleteCategoryModal = (props: PropTypes) => {
     if (isSuccessDeleteCategory) {
       onClose();
       refetchCategory();
+      setSelectedCategory("");
     }
   }, [isSuccessDeleteCategory]);
 
