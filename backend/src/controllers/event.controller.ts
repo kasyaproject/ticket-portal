@@ -1,13 +1,13 @@
 import { Response } from "express";
-import { IPaginationQuery, IReqUser } from "../utils/interface";
+import { IReqUser } from "../utils/interface";
 import response from "../utils/response";
-import EventModel, { eventDAO, TEvent } from "../models/event.model";
+import EventModel, { eventDAO, TypeEvent } from "../models/event.model";
 import { FilterQuery, isValidObjectId } from "mongoose";
 
 export default {
   async create(req: IReqUser, res: Response) {
     try {
-      const payload = { ...req.body, createdBy: req.user?.id } as TEvent;
+      const payload = { ...req.body, createdBy: req.user?.id } as TypeEvent;
 
       await eventDAO.validate(payload);
       const result = await EventModel.create(payload);
@@ -20,39 +20,39 @@ export default {
 
   async findAll(req: IReqUser, res: Response) {
     try {
+      const buildQuery = (filter: any) => {
+        let query: FilterQuery<TypeEvent> = {};
+
+        if (filter.search) query.$text = { $search: filter.search };
+        if (filter.category) query.category = filter.category;
+        if (filter.isOnline) query.isOnline = filter.isOnline;
+        if (filter.isFetured) query.isFetured = filter.isFetured;
+        if (filter.isPublish) query.isPublish = filter.isPublish;
+
+        return query;
+      };
+
       const {
         limit = 10,
         page = 1,
         search,
-      } = req.query as unknown as IPaginationQuery;
+        category,
+        isOnline,
+        isFetured,
+        isPublish,
+      } = req.query;
 
-      const query: FilterQuery<TEvent> = {};
-
-      // if (search) {
-      //   Object.assign(query, {
-      //     ...query,
-      //     $text: {
-      //       $search: search,
-      //     },
-      //   });
-      // }
-      // pencarian berdasarkan keyword
-      if (search) {
-        Object.assign(query, {
-          $or: [
-            {
-              name: { $regex: search, $options: "i" },
-            },
-            {
-              description: { $regex: search, $options: "i" },
-            },
-          ],
-        });
-      }
+      const query = buildQuery({
+        search,
+        category,
+        isOnline,
+        isFetured,
+        isPublish,
+      });
 
       const result = await EventModel.find(query)
-        .limit(limit)
-        .skip((page - 1) * limit)
+        .limit(+limit)
+        .skip((+page - 1) * +limit)
         .sort({ createdAt: -1 })
         .exec();
 
@@ -63,7 +63,7 @@ export default {
       response.pagination(
         res,
         result,
-        { total, totalPage: Math.ceil(total / limit), current: page },
+        { total, totalPage: Math.ceil(total / +limit), current: +page },
         "Success Find All Event"
       );
     } catch (error) {

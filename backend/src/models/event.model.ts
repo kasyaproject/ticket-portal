@@ -13,7 +13,7 @@ export const eventDAO = Yup.object({
   banner: Yup.string().required(),
   isFetured: Yup.boolean().required(),
   isOnline: Yup.boolean().required(),
-  isPublish: Yup.boolean(),
+  isPublish: Yup.boolean().required(),
   category: Yup.string().required(),
   slug: Yup.string(),
   createdBy: Yup.string().required(),
@@ -28,9 +28,9 @@ export const eventDAO = Yup.object({
     .required(),
 });
 
-export type TEvent = Yup.InferType<typeof eventDAO>;
+export type TypeEvent = Yup.InferType<typeof eventDAO>;
 
-export interface Event extends Omit<TEvent, "category" | "createdBy"> {
+export interface Event extends Omit<TypeEvent, "category" | "createdBy"> {
   category: ObjectId;
   createdBy: ObjectId;
 }
