@@ -131,7 +131,7 @@ export default {
         }
       );
 
-      // UPDATE STATUS ORDER DAN SIMPAN VOUCHERS
+      // UPDATE STATUS ORDER DAN SIMPAN
       const result = await OrderModel.findOneAndUpdate(
         {
           orderId,
