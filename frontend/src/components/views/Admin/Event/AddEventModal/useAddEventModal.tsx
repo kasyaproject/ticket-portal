@@ -13,7 +13,6 @@ import { useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
 import { DELAY } from "@/constants/list.const";
 import { toDateStandard } from "@/utils/date";
-import { getLocalTimeZone, now } from "@internationalized/date";
 
 const schema = yup.object().shape({
   name: yup.string().required("Please input event name"),
