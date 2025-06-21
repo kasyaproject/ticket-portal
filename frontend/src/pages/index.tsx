@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import Login from "@/components/views/Auth/Login";
+import LandingPageLayout from "@/components/layouts/LandingPageLayout";
+import Home from "@/components/views/Home";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,14 +12,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export default function Home() {
+const HomePage = () => {
   return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex items-center row-start-2 gap-8 sm:items-start">
-        <Login />
-      </main>
-    </div>
+    <LandingPageLayout title="Ticket Portal">
+      <Home />
+    </LandingPageLayout>
   );
-}
+};
+
+export default HomePage;

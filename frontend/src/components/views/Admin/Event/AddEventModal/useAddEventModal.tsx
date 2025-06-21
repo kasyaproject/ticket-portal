@@ -51,10 +51,6 @@ const useAddEventModal = () => {
     setValue,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      startDate: now(getLocalTimeZone()),
-      endDate: now(getLocalTimeZone()),
-    },
   });
 
   const debounce = useDebounce();
@@ -144,14 +140,8 @@ const useAddEventModal = () => {
   const handleAddEvent = (data: IEventForm) => {
     const payload = {
       ...data,
-      // isFetured: Boolean(data.isFetured),
-      // isPublish: Boolean(data.isPublish),
-      // isOnline: Boolean(data.isOnline),
-      // isOnline: data.isOnline === "true" ? true : false,
-      // isFetured: data.isFetured === "true" ? true : false,
-      // isPublish: data.isPublish === "true" ? true : false,
-      startDate: toDateStandard(data.startDate),
-      endDate: toDateStandard(data.endDate),
+      startDate: toDateStandard(data.startDate as DateValue),
+      endDate: toDateStandard(data.endDate as DateValue),
       location: {
         region: data.region,
         coordinates: [Number(data.latitude), Number(data.longitude)],
@@ -172,6 +162,7 @@ const useAddEventModal = () => {
     handleSubmitForm,
     isPendingAddEvent,
     isSuccessAddEvent,
+    setValue,
 
     handleUploadBanner,
     isPendingUploadFile,

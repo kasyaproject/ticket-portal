@@ -20,6 +20,7 @@ import InputFile from "@/components/ui/InputFile";
 import { useEffect } from "react";
 import { ICategory } from "@/types/Category";
 import { IRegency } from "@/types/Category.d copy";
+import { getLocalTimeZone, now } from "@internationalized/date";
 
 interface PropsTypes {
   isOpen: boolean;
@@ -30,6 +31,7 @@ interface PropsTypes {
 
 const AddEventModal = (props: PropsTypes) => {
   const { isOpen, onClose, onOpenChange, refetchEvent } = props;
+
   const {
     control,
     errors,
@@ -38,6 +40,7 @@ const AddEventModal = (props: PropsTypes) => {
     handleSubmitForm,
     isPendingAddEvent,
     isSuccessAddEvent,
+    setValue,
 
     preview,
     handleUploadBanner,
@@ -50,6 +53,7 @@ const AddEventModal = (props: PropsTypes) => {
     searchRegion,
     handleSearchRegion,
   } = useAddEventModal();
+
   const disableSubmit =
     isPendingAddEvent || isPendingUploadFile || isPendingDeleteFile;
 
@@ -59,6 +63,11 @@ const AddEventModal = (props: PropsTypes) => {
       refetchEvent();
     }
   }, [isSuccessAddEvent]);
+
+  useEffect(() => {
+    setValue("startDate", now(getLocalTimeZone()));
+    setValue("endDate", now(getLocalTimeZone()));
+  }, [onOpenChange]);
 
   return (
     <Modal

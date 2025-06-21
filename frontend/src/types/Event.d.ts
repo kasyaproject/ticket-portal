@@ -1,3 +1,5 @@
+import { DateValue } from "@heroui/react";
+
 interface IEvent {
   _id?: string;
   name?: string;
@@ -6,8 +8,8 @@ interface IEvent {
   isFetured?: boolean | string;
   isPublish?: boolean | string;
   isOnline?: boolean | string;
-  startDate?: string;
-  endDate?: string;
+  startDate?: string | DateValue;
+  endDate?: string | DateValue;
   location?: {
     region: string | undefined;
     coordinates: number[];
@@ -18,8 +20,6 @@ interface IEvent {
 }
 
 interface IEventForm extends IEvent {
-  startDate?: DateValue;
-  endDate?: DateValue;
   region?: string;
   latitude?: string;
   longitude?: string;

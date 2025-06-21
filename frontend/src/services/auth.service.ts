@@ -11,6 +11,8 @@ const authServices = {
 
   login: (payload: ILogin) => instance.post(`${endpoint.AUTH}/login`, payload),
 
+  getProfile: () => instance.get(`${endpoint.AUTH}/checkMe`),
+
   getProfileWithToken: (token: string) =>
     instance.get(`${endpoint.AUTH}/checkMe`, {
       headers: {

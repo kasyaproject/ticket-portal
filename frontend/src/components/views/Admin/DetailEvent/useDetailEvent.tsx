@@ -1,6 +1,7 @@
 import eventServices from "@/services/event.service";
 import { IEvent, IEventForm } from "@/types/Event";
 import { toDateStandard } from "@/utils/date";
+import { DateValue } from "@heroui/react";
 import { addToast } from "@heroui/toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -48,10 +49,8 @@ const useDetailEvent = () => {
   const handleUpdateEventInfo = (data: IEventForm) => {
     const payload = {
       ...data,
-      isFetured: data.isFetured === "true" ? true : false,
-      isPublish: data.isPublish === "true" ? true : false,
-      startDate: toDateStandard(data.startDate),
-      endDate: toDateStandard(data.endDate),
+      startDate: toDateStandard(data.startDate as DateValue),
+      endDate: toDateStandard(data.endDate as DateValue),
     };
 
     mutateUpdateEvent(payload);
@@ -60,7 +59,7 @@ const useDetailEvent = () => {
   // hit ke API untuk update event location
   const handleEventLocation = (data: IEventForm) => {
     const payload = {
-      isOnline: data.isOnline === "true" ? true : false,
+      ...data,
       location: {
         region: data.region,
         coordinates: [Number(data.latitude), Number(data.longitude)],
