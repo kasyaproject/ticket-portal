@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { cn } from "@/utils/cn";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
+import { onErrorHandler } from "@/libs/axios/responseHandler";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,6 +18,13 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: false,
+      throwOnError(error) {
+        onErrorHandler(error);
+        return false;
+      },
+    },
+    mutations: {
+      onError: onErrorHandler,
     },
   },
 });
