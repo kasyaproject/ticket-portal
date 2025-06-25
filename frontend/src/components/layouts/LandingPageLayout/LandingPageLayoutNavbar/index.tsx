@@ -92,7 +92,7 @@ const LandingPageLayoutNavbar = () => {
                   key="admin"
                   href="/admin/dashboard"
                   className={cn({
-                    hidden: dataProfile?.role !== "admin",
+                    hidden: dataProfile?.role === "admin",
                   })}
                 >
                   Dashboard
