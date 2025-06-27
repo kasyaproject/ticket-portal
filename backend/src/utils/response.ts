@@ -38,7 +38,7 @@ export default {
           status: 500,
           message: error.message,
         },
-        dara: error.name,
+        data: error.name,
       });
     }
 
@@ -51,7 +51,7 @@ export default {
           status: 500,
           message: _err.errorResponse.errmsg,
         },
-        dara: _err,
+        data: _err,
       });
     }
 

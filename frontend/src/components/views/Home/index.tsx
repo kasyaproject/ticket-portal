@@ -5,7 +5,7 @@ import Image from "next/image.js";
 import HomeListCategory from "./HomeListCategory";
 import HomeListEvent from "./HomeListEvent.tsx";
 
-const Home = () => {
+const HomeView = () => {
   const {
     dataBanners,
     isLoadingBanner,
@@ -31,6 +31,7 @@ const Home = () => {
         title="Featured Event"
         events={dataFeaturedEvents?.data}
         isLoading={isLoadingdFeaturedEvents}
+        urlMore="/event?isFeatured=true"
       />
 
       <Skeleton
@@ -50,6 +51,7 @@ const Home = () => {
         title="Leatest Event"
         events={dataLatestEvents?.data}
         isLoading={isLoadingdLatestEvents}
+        urlMore="/event?isOnline=true"
       />
 
       <HomeListCategory
@@ -60,4 +62,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeView;

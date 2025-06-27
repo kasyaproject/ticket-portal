@@ -18,8 +18,8 @@ const HomeListCategory = (props: PropTypes) => {
       </CardHeader>
 
       <CardBody className="p-0 mt-4">
-        <div className="grid auto-cols-[10rem] pb-5 grid-flow-col gap-4 overflow-x-auto lg:grid-cols-7">
-          {!isLoadingCategories
+        <div className="grid auto-cols-[10rem] pb-5 grid-flow-col gap-4 overflow-x-auto lg:grid-cols-6">
+          {!isLoadingCategories && Array.isArray(dataCategories)
             ? dataCategories?.map((category) => (
                 <Link
                   key={`category-${category._id}`}
@@ -37,7 +37,7 @@ const HomeListCategory = (props: PropTypes) => {
                   <p className="font-bold text-medium"> {category.name}</p>
                 </Link>
               ))
-            : Array.from({ length: 8 }).map((_, i) => (
+            : Array.from({ length: 6 }).map((_, i) => (
                 <Skeleton
                   key={`list-category-skeleton-${i}`}
                   className="aspect-square rounded-xl"

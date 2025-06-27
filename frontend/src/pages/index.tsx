@@ -1,10 +1,10 @@
 import LandingPageLayout from "@/components/layouts/LandingPageLayout";
-import Home from "@/components/views/Home";
+import HomeView from "@/components/views/Home";
 
 const HomePage = () => {
   return (
     <LandingPageLayout title="Ticket Portal">
-      <Home />
+      <HomeView />
     </LandingPageLayout>
   );
 };

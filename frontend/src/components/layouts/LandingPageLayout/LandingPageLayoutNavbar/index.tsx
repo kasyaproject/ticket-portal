@@ -143,7 +143,7 @@ const LandingPageLayoutNavbar = () => {
                 className={cn(
                   "font-medium text-default-700 hover:text-primary",
                   {
-                    hidden: dataProfile?.role !== "admin",
+                    hidden: dataProfile?.role === "admin",
                   },
                 )}
               >

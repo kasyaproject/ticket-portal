@@ -15,6 +15,7 @@ interface PropType {
 
 const CardEvent = (props: PropType) => {
   const { event, className, isLoading, key } = props;
+  // const isLoading = true;
 
   return (
     <Card
@@ -55,7 +56,7 @@ const CardEvent = (props: PropType) => {
           </CardBody>
 
           <CardFooter className="flex flex-col items-start gap-2 pt-0">
-            <Skeleton className="w-4/5 h-3 rounded-lg bg-default-300" />
+            <Skeleton className="w-full h-3 rounded-lg lg:w-4/5 bg-default-300" />
             <Skeleton className="w-2/5 h-3 mb-2 rounded-lg bg-default-200" />
             <Skeleton className="w-3/5 h-3 rounded-lg bg-default-200" />
           </CardFooter>
