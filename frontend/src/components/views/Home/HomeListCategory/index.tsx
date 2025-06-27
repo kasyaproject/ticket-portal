@@ -19,7 +19,7 @@ const HomeListCategory = (props: PropTypes) => {
 
       <CardBody className="p-0 mt-4">
         <div className="grid auto-cols-[10rem] pb-5 grid-flow-col gap-4 overflow-x-auto lg:grid-cols-6">
-          {!isLoadingCategories && Array.isArray(dataCategories)
+          {!isLoadingCategories && Array.isArray(dataCategories) // Memastikan bahwa Loading Fetching data sudah dan Data berbentuk Array
             ? dataCategories?.map((category) => (
                 <Link
                   key={`category-${category._id}`}

@@ -13,6 +13,8 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Listbox,
+  ListboxItem,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -20,15 +22,26 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
+  Spinner,
 } from "@heroui/react";
 import { cn } from "@/utils/cn";
 import { BUTTON_ITEMS, NAV_ITEMS } from "../LandingPageLayout.constants";
 import useLandingPageLayoutNavbar from "./useLandingPageLayoutNavbar";
+import { IEvent } from "@/types/Event";
 
 const LandingPageLayoutNavbar = () => {
   const router = useRouter();
   const session = useSession();
-  const { dataProfile } = useLandingPageLayoutNavbar();
+  const {
+    dataProfile,
+
+    dataEventsSearch,
+    isLoadingdEventsSearch,
+    isRefetchingSearch,
+    handleSearch,
+    search,
+    setSearch,
+  } = useLandingPageLayoutNavbar();
 
   return (
     <Navbar maxWidth="full" isBordered isBlurred={false} shouldHideOnScroll>
@@ -70,9 +83,38 @@ const LandingPageLayoutNavbar = () => {
             className="w-[300px]"
             placeholder="Search event..."
             startContent={<CiSearch />}
-            onClear={() => {}}
-            onChange={() => {}}
+            onClear={() => setSearch("")}
+            onChange={handleSearch}
           />
+          {search !== "" && (
+            <Listbox
+              items={dataEventsSearch?.data || []}
+              className="absolute right-0 bg-white border top-12 rounded-xl"
+            >
+              {!isRefetchingSearch && !isLoadingdEventsSearch ? (
+                (item: IEvent) => (
+                  <ListboxItem key={item._id} href={`/event/${item.slug}`}>
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={`${item.banner}`}
+                        alt={`${item.name}`}
+                        className="w-2/5 rounded-md"
+                        width={100}
+                        height={40}
+                      />
+                      <p className="w-3/5 line-clamp-2 text-wrap">
+                        {item.name}
+                      </p>
+                    </div>
+                  </ListboxItem>
+                )
+              ) : (
+                <ListboxItem key="loading">
+                  <Spinner color="primary" size="sm" />
+                </ListboxItem>
+              )}
+            </Listbox>
+          )}
         </NavbarItem>
 
         {/* Desktop Navbar */}
