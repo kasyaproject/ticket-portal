@@ -7,6 +7,8 @@ const eventServices = {
   addEvent: (payload: IEvent) => instance.post(endpoint.EVENT, payload),
   deleteEvent: (id: string) => instance.delete(`${endpoint.EVENT}/${id}`),
   getEventById: (id: string) => instance.get(`${endpoint.EVENT}/${id}`),
+  getEventBySlug: (slug: string) =>
+    instance.get(`${endpoint.EVENT}/${slug}/slug`),
   updateEvent: (id: string, payload: IEvent) =>
     instance.put(`${endpoint.EVENT}/${id}`, payload),
 
