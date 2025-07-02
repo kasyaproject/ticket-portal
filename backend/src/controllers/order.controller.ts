@@ -1,6 +1,7 @@
 import { FilterQuery } from "mongoose";
 import { Response } from "express";
 import { IReqUser } from "../utils/interface";
+import { getId } from "../utils/id";
 import response from "../utils/response";
 import OrderModel, {
   orderDAO,
@@ -9,7 +10,6 @@ import OrderModel, {
   TypeVoucher,
 } from "../models/order.model";
 import TicketModel from "../models/ticket.model";
-import { getId } from "../utils/id";
 
 export default {
   async create(req: IReqUser, res: Response) {
@@ -104,6 +104,26 @@ export default {
       response.success(res, result, "Success to find specific order");
     } catch (error) {
       response.error(res, error, "Failed to find specific order");
+    }
+  },
+  async remove(req: IReqUser, res: Response) {
+    try {
+      const { orderId } = req.params;
+
+      const result = await OrderModel.findOneAndDelete(
+        {
+          orderId,
+        },
+        {
+          new: true,
+        }
+      );
+
+      if (!result) return response.notFound(res, "Order not found!");
+
+      response.success(res, result, "Success to remove an Order");
+    } catch (error) {
+      response.error(res, error, "failed to remove an order!");
     }
   },
 

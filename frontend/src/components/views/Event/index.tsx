@@ -11,7 +11,7 @@ import Image from "next/image";
 const EventView = () => {
   const router = useRouter();
   const { setUrlFilter } = useChangeUrl();
-  const { dataEvent, isLoadingEvent, isRefetchingEvent, refetchEvent } =
+  const { dataEvent, isLoadingEvent, isRefetchingEvent } =
     useEvent();
 
   useEffect(() => {

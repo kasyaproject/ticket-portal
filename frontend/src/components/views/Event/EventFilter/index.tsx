@@ -67,7 +67,7 @@ const EventFilter = () => {
           <Controller
             name="isOnline"
             control={control}
-            render={({ field: { onChange, ...field } }) => (
+            render={({ field: {  ...field } }) => (
               <Select
                 {...field}
                 label="Online/Offline Event"
@@ -88,7 +88,7 @@ const EventFilter = () => {
           <Controller
             name="isFetured"
             control={control}
-            render={({ field: { onChange, ...field } }) => (
+            render={({ field: {  ...field } }) => (
               <Select
                 {...field}
                 label="Status Event"

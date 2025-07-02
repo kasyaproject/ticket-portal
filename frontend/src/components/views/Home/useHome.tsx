@@ -10,10 +10,11 @@ import eventServices from "@/services/event.service";
 import categoryServices from "@/services/category.service";
 
 const useHome = () => {
+  
   // ambil data Banner dari API dengan parameter params yang sudah ada/baru
   const getBanners = async () => {
-    let params = `limit=${LIMIT_BANNER}&page=${PAGE_DEFAULT}`;
-
+    const  params = `limit=${LIMIT_BANNER}&page=${PAGE_DEFAULT}`;
+    
     const res = await bannerServices.getBanners(params);
     const { data } = res;
 
@@ -57,7 +58,7 @@ const useHome = () => {
 
   // ambil data Categories dari API dengan parameter params yang sudah ada/baru
   const getCategories = async () => {
-    let params = `limit=${LIMIT_CATEGORY}&page=${PAGE_DEFAULT}`;
+    const params = `limit=${LIMIT_CATEGORY}&page=${PAGE_DEFAULT}`;
 
     const res = await categoryServices.getCategories(params);
     const { data } = res;

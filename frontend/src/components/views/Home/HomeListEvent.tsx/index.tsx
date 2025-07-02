@@ -4,7 +4,7 @@ import { IEvent } from "@/types/Event";
 import CardEvent from "@/components/ui/CardEvent";
 
 interface PropTypes {
-  title: String;
+  title: string;
   events: IEvent[];
   isLoading: boolean;
   urlMore: string;

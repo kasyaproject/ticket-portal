@@ -75,6 +75,7 @@ const doc = {
         price: 100000,
         quota: 100,
       },
+      OrderRequest: {},
     },
   },
 };
@@ -88,6 +89,7 @@ const endpointsFiles = [
   "../routes/region.routes.ts",
   "../routes/banner.routes.ts",
   "../routes/ticket.routes.ts",
+  "../routes/order.routes.ts",
 ];
 
 swaggerAutogen({ openapi: "3.0.0" })(outputFile, endpointsFiles, doc);

@@ -15,7 +15,7 @@ const useEvent = () => {
 
   // ambil data categori dari API dengan parameter params yang sudah ada/baru
   const getEvents = async () => {
-    let params = `limit=${currentLimit}&page=${currentPage}&category=${currentCategory}&isOnline=${currentIsOnline}&isFetured=${currentIsFeatured}`;
+    const params = `limit=${currentLimit}&page=${currentPage}&category=${currentCategory}&isOnline=${currentIsOnline}&isFetured=${currentIsFeatured}`;
 
     const res = await eventServices.getEvents(params);
     const { data } = res;
