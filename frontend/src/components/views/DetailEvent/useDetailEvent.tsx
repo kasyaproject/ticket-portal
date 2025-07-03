@@ -102,10 +102,9 @@ const useDetailEvent = () => {
         });
       },
       onSuccess: (result) => {
-        console.log("Create Order Success", result);
         const transactionToken = result.payment.token;
 
-        (window as any).snap.pay(transactionToken);
+        window.snap.pay(transactionToken);
       },
     });
 
