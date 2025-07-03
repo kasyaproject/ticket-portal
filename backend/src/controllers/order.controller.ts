@@ -4,7 +4,7 @@ import { IReqUser } from "../utils/interface";
 import { getId } from "../utils/id";
 import response from "../utils/response";
 import OrderModel, {
-  orderDAO,
+  orderDTO,
   OrderStatus,
   TypeOrder,
   TypeVoucher,
@@ -22,7 +22,7 @@ export default {
         createdBy: userId,
       } as TypeOrder;
       // validasi payload
-      await orderDAO.validate(payload);
+      await orderDTO.validate(payload);
 
       // ambil data ticket
       const ticket = await TicketModel.findById(payload.ticket);

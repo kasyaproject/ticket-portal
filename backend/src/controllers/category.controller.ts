@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import response from "../utils/response";
-import CategoryModel, { categoryDAO } from "../models/category.model";
+import CategoryModel, { categoryDTO } from "../models/category.model";
 import { IPaginationQuery, IReqUser } from "../utils/interface";
 import { isValidObjectId } from "mongoose";
 
 export default {
   async create(req: Request, res: Response) {
     try {
-      await categoryDAO.validate(req.body); // validasi terhadap Yup yang ada di model
+      await categoryDTO.validate(req.body); // validasi terhadap Yup yang ada di model
       const result = await CategoryModel.create(req.body); // buat data category baru
 
       response.success(res, result, "Success create category");
