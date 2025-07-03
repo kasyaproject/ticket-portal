@@ -1262,6 +1262,47 @@
           }
         ]
       }
+    },
+    "/orders-history": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1359,8 +1400,8 @@
             "type": "object",
             "properties": {
               "region": {
-                "type": "string",
-                "example": "region id"
+                "type": "number",
+                "example": 3273
               },
               "coordinate": {
                 "type": "array",
@@ -1473,6 +1514,26 @@
         },
         "xml": {
           "name": "TicketRequest"
+        }
+      },
+      "OrderRequest": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "string",
+            "example": "67ff7438897b242173fb5022 - ObjectId Event"
+          },
+          "ticket": {
+            "type": "string",
+            "example": "685ef1a3588a6a57a25b5a0f - ObjectId Ticket"
+          },
+          "quantity": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "xml": {
+          "name": "OrderRequest"
         }
       }
     }

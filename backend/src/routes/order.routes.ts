@@ -3,8 +3,6 @@ import authMiddleware from "../middlewares/auth.middleware";
 import aclMiddleware from "../middlewares/acl.middleware";
 import { ROLES } from "../utils/constant";
 import orderController from "../controllers/order.controller";
-import mediaController from "../controllers/media.controller";
-import mediaMiddleware from "../middlewares/media.middleware";
 
 const router = express.Router();
 
@@ -85,6 +83,18 @@ router.put(
   "/orders/:orderId/cancelled",
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   orderController.cencelled
+  /**
+    #swagger.tags = ['Order']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+  */
+);
+
+router.get(
+  "/orders-history",
+  [authMiddleware, aclMiddleware([ROLES.MEMBER])],
+  orderController.findAllByMember
   /**
     #swagger.tags = ['Order']
     #swagger.security = [{

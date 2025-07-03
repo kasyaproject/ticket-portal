@@ -86,6 +86,41 @@ export default {
   },
   async findAllByMember(req: IReqUser, res: Response) {
     try {
+      const userId = req.user?.id;
+
+      const buildQuery = (filter: any) => {
+        let query: FilterQuery<TypeOrder> = {
+          createdBy: userId,
+        };
+
+        if (filter.search) query.$text = { $search: filter.search };
+
+        return query;
+      };
+
+      const { limit = 10, page = 1, search } = req.query;
+
+      const query = buildQuery({
+        search,
+      });
+
+      const result = await OrderModel.find(query)
+        .limit(+limit)
+        .skip((+page - 1) * +limit)
+        .sort({ createdAt: -1 })
+        .lean()
+        .exec();
+
+      if (!result) return response.notFound(res, "Order not found!");
+
+      const total = await OrderModel.countDocuments(query);
+
+      response.pagination(
+        res,
+        result,
+        { total, totalPage: Math.ceil(total / +limit), current: +page },
+        "Success Find All Order"
+      );
     } catch (error) {
       response.error(res, error, "Failed to find your order");
     }
@@ -186,12 +221,74 @@ export default {
   },
   async cencelled(req: IReqUser, res: Response) {
     try {
+      const { orderId } = req.params;
+
+      // CARI ORDER BERDASARKAN ID DAN CREATEDBY
+      const order = await OrderModel.findOne({
+        orderId,
+      });
+
+      if (!order) return response.notFound(res, "Order not found!");
+
+      if (order.status === OrderStatus.COMPLETE)
+        return response.error(res, null, "This order has been completed");
+
+      if (order.status === OrderStatus.CANCELLED)
+        return response.error(res, null, "This order currently is cancelled");
+
+      // UPDATE KE STATUS PENDING
+      const result = await OrderModel.findOneAndUpdate(
+        {
+          orderId,
+        },
+        {
+          status: OrderStatus.CANCELLED,
+        },
+        {
+          new: true,
+        }
+      );
+
+      response.success(res, result, "Success to cencelled an order");
     } catch (error) {
       response.error(res, error, "Failed to cancelled order");
     }
   },
   async pending(req: IReqUser, res: Response) {
     try {
+      const { orderId } = req.params;
+
+      // CARI ORDER BERDASARKAN ID DAN CREATEDBY
+      const order = await OrderModel.findOne({
+        orderId,
+      });
+
+      if (!order) return response.notFound(res, "Order not found!");
+
+      if (order.status === OrderStatus.COMPLETE)
+        return response.error(res, null, "This order has been completed");
+
+      if (order.status === OrderStatus.PENDING)
+        return response.error(
+          res,
+          null,
+          "This order currently in payment pending"
+        );
+
+      // UPDATE KE STATUS PENDING
+      const result = await OrderModel.findOneAndUpdate(
+        {
+          orderId,
+        },
+        {
+          status: OrderStatus.PENDING,
+        },
+        {
+          new: true,
+        }
+      );
+
+      response.success(res, result, "Success to pending an order");
     } catch (error) {
       response.error(res, error, "Failed to pending order");
     }
