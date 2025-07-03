@@ -49,8 +49,7 @@ export default {
       return res.status(500).json({
         meta: {
           status: 500,
-          message:
-            _err?.errorResponse?.errmsg || _err.message || "Unknown error",
+          message: _err?.errorResponse?.errmsg,
         },
         data: _err,
       });

@@ -14,6 +14,7 @@ import eventRouter from "./routes/event.routes";
 import ticketRouter from "./routes/ticket.routes";
 import bannerRouter from "./routes/banner.routes";
 import orderRouter from "./routes/order.routes";
+import errorMiddleware from "./middlewares/error.middleware";
 
 async function init() {
   try {
@@ -44,6 +45,10 @@ async function init() {
       orderRouter,
     ]); // all api routes
     docs(app); // Api Docs
+
+    // Global error handler
+    app.use(errorMiddleware.serverRoute());
+    app.use(errorMiddleware.serverError());
 
     app.listen(PORT, async () => {
       console.log(`Server is running on port http://localhost:${PORT}`);

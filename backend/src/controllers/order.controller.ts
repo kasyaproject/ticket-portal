@@ -134,11 +134,11 @@ export default {
         orderId,
       });
 
-      if (!result) response.notFound(res, "Specific order not found!");
+      if (!result) return response.notFound(res, "Specific order not found!");
 
-      response.success(res, result, "Success to find specific order");
+      return response.success(res, result, "Success to find specific order");
     } catch (error) {
-      response.error(res, error, "Failed to find specific order");
+      return response.error(res, error, "Failed to find specific order");
     }
   },
   async remove(req: IReqUser, res: Response) {
