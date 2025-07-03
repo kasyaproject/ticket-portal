@@ -85,7 +85,7 @@ const useDetailEvent = () => {
   };
 
   const createOrder = async () => {
-    const data = await orderServices.createOrder(cart);
+    const { data } = await orderServices.createOrder(cart);
 
     return data.data;
   };
@@ -102,9 +102,10 @@ const useDetailEvent = () => {
         });
       },
       onSuccess: (result) => {
+        console.log("Create Order Success", result);
         const transactionToken = result.payment.token;
 
-        window.snap.pay(transactionToken);
+        (window as any).snap.pay(transactionToken);
       },
     });
 
