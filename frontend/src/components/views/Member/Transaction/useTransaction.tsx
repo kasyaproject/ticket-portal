@@ -9,7 +9,7 @@ const useTransaction = () => {
 
   // ambil data categori dari API dengan parameter params yang sudah ada/baru
   const getMemberTransactions = async () => {
-    let params = `limit=${currentLimit}&page=${currentPage}&search=${currentSearch}`;
+    const params = `limit=${currentLimit}&page=${currentPage}&search=${currentSearch}`;
 
     const { data } = await orderServices.getMemberOrders(params);
 
