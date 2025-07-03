@@ -24,6 +24,8 @@ const usePayment = () => {
       `${order_id}`,
       standelizedStatus(`${status}`),
     );
+
+    return result.data;
   };
 
   const { mutate: mutateUpdateOrderStatus } = useMutation({
