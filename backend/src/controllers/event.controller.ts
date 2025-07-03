@@ -3,6 +3,7 @@ import { IReqUser } from "../utils/interface";
 import response from "../utils/response";
 import EventModel, { eventDTO, TypeEvent } from "../models/event.model";
 import { FilterQuery, isValidObjectId } from "mongoose";
+import uploader from "../utils/uploader";
 
 export default {
   async create(req: IReqUser, res: Response) {
@@ -118,11 +119,15 @@ export default {
         return response.notFound(res, "Event not found");
       }
 
+      // Query untuk menghapus event berdasarkan id
       const result = await EventModel.findByIdAndDelete(id, {
         new: true,
       });
 
       if (!result) return response.notFound(res, "Event not found!");
+
+      //  Query untuk menghapus event banner berdasarkan id
+      await uploader.remove(result.banner);
 
       response.success(res, result, "Success Delete an Event");
     } catch (error) {
