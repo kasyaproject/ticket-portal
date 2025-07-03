@@ -12,6 +12,7 @@ export interface IUserToken
     | "fullname"
     | "profilePicture"
     | "username"
+    | "confirmPassword"
   > {
   id?: Types.ObjectId;
 }

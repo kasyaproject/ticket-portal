@@ -1,72 +1,24 @@
 import { Request, Response } from "express";
-import * as yup from "yup";
 
-import UserModel from "../models/user.model";
+import UserModel, {
+  userDTO,
+  userLoginDTO,
+  userUpdatePasswordDTO,
+} from "../models/user.model";
 import { encrypt } from "../utils/encryption";
 import { generateToken } from "../utils/jwt";
 import { IReqUser } from "../utils/interface";
 import response from "../utils/response";
 
-type TRegister = {
-  fullname: string;
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
-
-type TLogin = {
-  identifier: string; // untuk email atau username
-  password: string;
-};
-
-// schema validasi data
-const registerValidateSchema = yup.object({
-  fullname: yup.string().required(),
-  username: yup.string().required(),
-  email: yup.string().email().required(),
-  password: yup
-    .string()
-    .required()
-    .min(7, "Password must be at least 7 characters")
-    .test(
-      "at-least-one-uppercase-letter",
-      "Password must have at least one uppercase letter",
-      (value) => {
-        if (!value) return false;
-
-        const regex = /^(?=.*[A-Z])/;
-
-        return regex.test(value);
-      }
-    )
-    .test(
-      "at-least-one-number",
-      "Password must have at least one number",
-      (value) => {
-        if (!value) return false;
-
-        const regex = /^(?=.*\d)/;
-
-        return regex.test(value);
-      }
-    ),
-  confirmPassword: yup
-    .string()
-    .required()
-    .oneOf([yup.ref("password")], "Passwords not match"),
-});
-
 export default {
   // CONTROLLER REGISTER USER
   async register(req: Request, res: Response) {
     // ambil data dari req.body
-    const { fullname, username, email, password, confirmPassword } =
-      req.body as unknown as TRegister;
+    const { fullname, username, email, password, confirmPassword } = req.body;
 
     try {
       // validasi data
-      await registerValidateSchema.validate({
+      await userDTO.validate({
         fullname,
         username,
         email,
@@ -117,7 +69,10 @@ export default {
   async login(req: Request, res: Response) {
     try {
       // ambil data dari req.body
-      const { identifier, password } = req.body as unknown as TLogin;
+      const { identifier, password } = req.body;
+
+      // validasi input req.body
+      await userLoginDTO.validate({ identifier, password });
 
       // ambil data User berdasarkan identifier dan isActive status nya
       const userByIdentifier = await UserModel.findOne({
@@ -164,6 +119,70 @@ export default {
     } catch (error) {
       // jika data tidak valid, return error
       response.error(res, error, "User not found!");
+    }
+  },
+
+  async updateProfile(req: IReqUser, res: Response) {
+    try {
+      const userId = req.user?.id;
+      const { fullname, profilePicture } = req.body;
+
+      const result = await UserModel.findByIdAndUpdate(
+        userId,
+        {
+          fullname,
+          profilePicture,
+        },
+        { new: true }
+      );
+
+      if (!result) return response.unauthorized(res, "User not found!");
+
+      response.success(res, result, "Profile updated successfully!");
+    } catch (error) {
+      response.error(res, error, "Failed to update profile");
+    }
+  },
+
+  async updatePassword(req: IReqUser, res: Response) {
+    try {
+      const userId = req.user?.id;
+      const { oldPassword, password, confirmPassword } = req.body;
+
+      // Validasi input dari req.body
+      await userUpdatePasswordDTO.validate({
+        oldPassword,
+        password,
+        confirmPassword,
+      });
+
+      // Ambil data user berdasarkan id
+      const user = await UserModel.findById(userId);
+
+      // Jika user tidak ditemukan dan old password tidak sesuai, return error
+      if (!user) return response.notFound(res, "User not found!");
+
+      if (user.password !== encrypt(oldPassword))
+        return response.notFound(res, "Old password is incorrect!");
+
+      if (password !== confirmPassword)
+        return response.error(
+          res,
+          null,
+          "New password and confirm password do not match!"
+        );
+
+      const result = await UserModel.findByIdAndUpdate(
+        userId,
+        {
+          password: encrypt(password),
+        },
+        { new: true }
+      );
+
+      response.success(res, result, "Password updated successfully!");
+    } catch (error) {
+      response.error(res, error, "Failed to update password user");
     }
   },
 };

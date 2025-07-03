@@ -39,6 +39,15 @@ const doc = {
       ActivationRequest: {
         code: "qwerty1234567890",
       },
+      UpdateProfileRequest: {
+        fullname: "dika123123",
+        profilePicture: "fileUrl",
+      },
+      UpdatePasswordRequest: {
+        oldPassword: "oldPassword123",
+        password: "newPassword123",
+        confirmPassword: "newPassword123",
+      },
       EventRequest: {
         name: "Event - name",
         banner: "fileUrl",

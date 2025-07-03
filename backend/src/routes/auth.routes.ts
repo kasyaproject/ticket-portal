@@ -2,6 +2,8 @@ import express from "express";
 
 import authController from "../controllers/auth.controller";
 import authMiddleware from "../middlewares/auth.middleware";
+import aclMiddleware from "../middlewares/acl.middleware";
+import { ROLES } from "../utils/constant";
 
 const router = express.Router();
 
@@ -46,6 +48,36 @@ router.post(
       #swagger.requestBody = {
         required: true,
         schema: {$ref: '#/components/schemas/ActivationRequest'},
+      }
+     */
+);
+router.put(
+  "/auth/updateProfile",
+  [authMiddleware, aclMiddleware([ROLES.MEMBER])],
+  authController.updateProfile
+  /*
+      #swagger.tags = ['Auth']
+      #swagger.security = [{
+        "bearerAuth": []
+      }]
+      #swagger.requestBody = {
+        required: true,
+        schema: {$ref: '#/components/schemas/UpdateProfileRequest'},
+      }
+     */
+);
+router.put(
+  "/auth/updatePassword",
+  [authMiddleware, aclMiddleware([ROLES.MEMBER])],
+  authController.updatePassword
+  /*
+      #swagger.tags = ['Auth']
+      #swagger.security = [{
+        "bearerAuth": []
+      }]
+      #swagger.requestBody = {
+        required: true,
+        schema: {$ref: '#/components/schemas/UpdatePasswordRequest'},
       }
      */
 );
