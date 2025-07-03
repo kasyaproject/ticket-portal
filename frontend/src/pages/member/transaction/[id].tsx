@@ -1,14 +1,14 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import MemberDashboard from "@/components/views/Member/Dashboard";
+import DetailTransaction from "@/components/views/Member/DetailTransaction";
 
 const MemberDashboardPage = () => {
   return (
     <DashboardLayout
-      title="Dashboard Member"
-      desc="Dashboard Member"
+      title="Transaction"
+      desc="Transaction Detail"
       type="member"
     >
-      <MemberDashboard />
+      <DetailTransaction />
     </DashboardLayout>
   );
 };

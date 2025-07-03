@@ -5,67 +5,54 @@ import { getToken } from "next-auth/jwt";
 import environment from "./config/environment";
 
 export async function middleware(request: NextRequest) {
-  // ambil token dari header
+  // ambil token
   const token: JWTExtended | null = await getToken({
     req: request,
     secret: environment.AUTH_SECRET,
   });
 
-  // ambil niali url
   const { pathname } = request.nextUrl;
 
-  // jika url di "login"/"regiter" dan jika ada token(sudah login) ada maka redirect ke home untuk menghindari /login dan /register
+  // auth/login & auth/register
   if (pathname == "/auth/login" || pathname == "/auth/register") {
     if (token) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
 
-  // middleware untuk /admin
+  // admin
   if (pathname.startsWith("/admin")) {
-    // Jika belum login maka tidak bisa akses "/admin/...."
     if (!token) {
       const url = new URL("/auth/login", request.url);
-
       url.searchParams.set("callbackUrl", encodeURI(request.url));
-
       return NextResponse.redirect(url);
     }
 
-    // jika role bukan admin
+    console.log("Role:", token?.user?.role);
+
     if (token?.user?.role !== "admin") {
       return NextResponse.redirect(new URL("/member/dashboard", request.url));
     }
 
-    // untuk mengarahkan ke dashboard
     if (pathname === "/admin") {
       return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
   }
 
-  // middleware untuk /member
+  // member
   if (pathname.startsWith("/member")) {
-    // Jika belum login maka tidak bisa akses "/member/...."
     if (!token) {
       const url = new URL("/auth/login", request.url);
-
       url.searchParams.set("callbackUrl", encodeURI(request.url));
-
       return NextResponse.redirect(url);
     }
 
-    // jika role bukan admin
-    if (token?.user?.role !== "user") {
+    if (token?.user?.role !== "member") {
       return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
 
-    // untuk mengarahkan ke dashboard
     if (pathname === "/member") {
       return NextResponse.redirect(new URL("/member/dashboard", request.url));
     }
   }
 }
-
-export const config = {
-  matcher: ["/auth/:path*", "/admin/:path*", "/member/:path*"],
-};

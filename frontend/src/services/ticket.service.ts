@@ -5,6 +5,7 @@ import { ITicket } from "@/types/Ticket";
 const ticketServices = {
   getTicketByEventId: (id: string) =>
     instance.get(`${endpoint.TICKET}/${id}/events`),
+  getTicketById: (id: string) => instance.get(`${endpoint.TICKET}/${id}`),
   addTicket: (payload: ITicket) => instance.post(endpoint.TICKET, payload),
   deleteTicket: (id: string) => instance.delete(`${endpoint.TICKET}/${id}`),
   updateTicket: (id: string, payload: ITicket) =>
