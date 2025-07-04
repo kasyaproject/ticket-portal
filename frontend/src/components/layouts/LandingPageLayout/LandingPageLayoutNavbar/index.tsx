@@ -130,15 +130,15 @@ const LandingPageLayoutNavbar = () => {
               </DropdownTrigger>
 
               <DropdownMenu>
-                <DropdownItem
-                  key="admin"
-                  href="/admin/dashboard"
-                  className={cn({
-                    hidden: dataProfile?.role === "admin",
-                  })}
-                >
-                  Dashboard
-                </DropdownItem>
+                {dataProfile?.role === "admin" ? (
+                  <DropdownItem key="admin" href="/admin/event">
+                    Event
+                  </DropdownItem>
+                ) : (
+                  <DropdownItem key="admin" href="/member/transaction">
+                    Transaction
+                  </DropdownItem>
+                )}
 
                 <DropdownItem key="profile" href="/member/profile">
                   Profile
@@ -181,16 +181,15 @@ const LandingPageLayoutNavbar = () => {
           ))}
           {session.status === "authenticated" ? (
             <Fragment>
-              <NavbarMenuItem
-                className={cn(
-                  "font-medium text-default-700 hover:text-primary",
-                  {
-                    hidden: dataProfile?.role === "admin",
-                  },
-                )}
-              >
-                <Link href="/admin/dashboard">Dashboard</Link>
-              </NavbarMenuItem>
+              {dataProfile?.role === "admin" ? (
+                <NavbarMenuItem className="font-medium text-default-700 hover:text-primary">
+                  <Link href="/admin/event">Event</Link>
+                </NavbarMenuItem>
+              ) : (
+                <NavbarMenuItem className="font-medium text-default-700 hover:text-primary">
+                  <Link href="/member/transaction">Transaction</Link>
+                </NavbarMenuItem>
+              )}
 
               <NavbarMenuItem className="font-medium text-default-700 hover:text-primary">
                 <Link href="/member/profile">Profile</Link>

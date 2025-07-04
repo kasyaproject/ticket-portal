@@ -43,7 +43,7 @@ export const userLoginDTO = Yup.object({
 });
 
 export const userUpdatePasswordDTO = Yup.object({
-  oldPassword: validatePassword,
+  oldPassword: Yup.string().required(),
   password: validatePassword,
   confirmPassword: validateConfirmPassword,
 });
