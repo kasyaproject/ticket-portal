@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import DetailTransaction from "@/components/views/Member/DetailTransaction";
 
-const MemberDashboardPage = () => {
+const MemberDetailTransactionPage = () => {
   return (
     <DashboardLayout
       title="Transaction"
@@ -12,4 +12,4 @@ const MemberDashboardPage = () => {
     </DashboardLayout>
   );
 };
-export default MemberDashboardPage;
+export default MemberDetailTransactionPage;

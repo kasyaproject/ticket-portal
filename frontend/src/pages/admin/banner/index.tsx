@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import AdminBanner from "@/components/views/Admin/Banner";
 
-const AdminCategoryPage = () => {
+const AdminBannerPage = () => {
   return (
     <DashboardLayout
       title="Banner"
@@ -13,4 +13,4 @@ const AdminCategoryPage = () => {
   );
 };
 
-export default AdminCategoryPage;
+export default AdminBannerPage;
