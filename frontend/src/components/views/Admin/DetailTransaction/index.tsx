@@ -1,7 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Script from "next/script";
-import environment from "@/config/environment";
 import useDetailTransaction from "./useDetailTransaction";
 import { Button, Card, CardBody, Chip, Skeleton } from "@heroui/react";
 import { convertToIDR } from "@/utils/currency";
