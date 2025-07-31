@@ -3,7 +3,7 @@ import { encrypt } from "../utils/encryption";
 import * as Yup from "yup";
 
 import { renderMail, sendMail } from "../utils/mail/mail";
-import { CLIENT_HOST, EMAIL_SMTP_USER } from "../utils/env";
+import { CLIENT_HOST, EMAIL_SMTP_FROM } from "../utils/env";
 import { ROLES } from "../utils/constant";
 
 const validatePassword = Yup.string()
@@ -54,6 +54,7 @@ export const userDTO = Yup.object({
   email: Yup.string().email().required(),
   password: validatePassword,
   confirmPassword: validateConfirmPassword,
+  role: Yup.string().required(),
 });
 
 export type TypeUser = Yup.InferType<typeof userDTO>;
@@ -133,7 +134,7 @@ UserSchema.post("save", async function (doc, next) {
     });
 
     await sendMail({
-      from: EMAIL_SMTP_USER,
+      from: EMAIL_SMTP_FROM,
       to: user.email,
       subject: "Registrasi Berhasil - Aktivasi akun anda !",
       content: contentMail,
