@@ -135,14 +135,16 @@ const LandingPageLayoutNavbar = () => {
                     Dashboard
                   </DropdownItem>
                 ) : (
-                  <DropdownItem key="member" href="/member/transaction">
-                    Transaction
-                  </DropdownItem>
-                )}
+                  <>
+                    <DropdownItem key="member" href="/member/transaction">
+                      Transaction
+                    </DropdownItem>
 
-                <DropdownItem key="profile" href="/member/profile">
-                  Profile
-                </DropdownItem>
+                    <DropdownItem key="profile" href="/member/profile">
+                      Profile
+                    </DropdownItem>
+                  </>
+                )}
 
                 <DropdownItem key="signout" onPress={() => signOut()}>
                   Log Out
