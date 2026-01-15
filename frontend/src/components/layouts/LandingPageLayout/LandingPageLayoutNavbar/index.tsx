@@ -132,7 +132,7 @@ const LandingPageLayoutNavbar = () => {
               <DropdownMenu>
                 {dataProfile?.role === "admin" ? (
                   <DropdownItem key="admin" href="/admin/event">
-                    Event
+                    Dashboard
                   </DropdownItem>
                 ) : (
                   <DropdownItem key="member" href="/member/transaction">
