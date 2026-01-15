@@ -135,7 +135,7 @@ const LandingPageLayoutNavbar = () => {
                     Event
                   </DropdownItem>
                 ) : (
-                  <DropdownItem key="admin" href="/member/transaction">
+                  <DropdownItem key="member" href="/member/transaction">
                     Transaction
                   </DropdownItem>
                 )}
