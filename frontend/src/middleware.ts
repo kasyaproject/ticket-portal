@@ -39,7 +39,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // member
+  // member & member/transaction
   if (pathname.startsWith("/member")) {
     if (!token) {
       const url = new URL("/auth/login", request.url);
