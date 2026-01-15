@@ -31,7 +31,7 @@ const DetailEvent = () => {
   } = useDetailEvent();
 
   return (
-    <div className="px-8 md:px-0">
+    <div className="px-8 md:px-0 ">
       <Script
         src={environment.MIDTRANS_SNAP_URL}
         data-client-key={environment.MIDTRANS_CLIENT_KEY}
@@ -50,7 +50,7 @@ const DetailEvent = () => {
       </Skeleton>
 
       <section className="flex flex-col gap-10 mt-8 lg:flex-row">
-        <div className="w-full lg:w-4/6">
+        <div className="w-full lg:w-4/6 ">
           <Skeleton
             isLoaded={!!dataDetailEvent?.name}
             className="w-3/4 h-8 mb-2 rounded-lg"
@@ -126,7 +126,7 @@ const DetailEvent = () => {
               </h2>
               <Skeleton
                 isLoaded={!!dataDetailEvent?.description}
-                className="w-full h-32 mt-2 rounded-lg"
+                className="w-full min-h-32 mt-2 rounded-lg"
               >
                 <div className="flex flex-col gap-8 mt-2">
                   {dataTicketsByEventId?.map((ticket: ITicket) => (
