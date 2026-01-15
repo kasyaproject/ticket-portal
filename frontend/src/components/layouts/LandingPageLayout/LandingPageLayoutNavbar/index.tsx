@@ -183,17 +183,20 @@ const LandingPageLayoutNavbar = () => {
             <Fragment>
               {dataProfile?.role === "admin" ? (
                 <NavbarMenuItem className="font-medium text-default-700 hover:text-primary">
-                  <Link href="/admin/event">Event</Link>
+                  <Link href="/admin/event">Dashboard</Link>
                 </NavbarMenuItem>
               ) : (
-                <NavbarMenuItem className="font-medium text-default-700 hover:text-primary">
-                  <Link href="/member/transaction">Transaction</Link>
-                </NavbarMenuItem>
+                <>
+                  <NavbarMenuItem className="font-medium text-default-700 hover:text-primary">
+                    <Link href="/member/transaction">Transaction</Link>
+                  </NavbarMenuItem>
+
+                  <NavbarMenuItem className="font-medium text-default-700 hover:text-primary">
+                    <Link href="/member/profile">Profile</Link>
+                  </NavbarMenuItem>
+                </>
               )}
 
-              <NavbarMenuItem className="font-medium text-default-700 hover:text-primary">
-                <Link href="/member/profile">Profile</Link>
-              </NavbarMenuItem>
               <NavbarMenuItem>
                 <Button
                   color="primary"
