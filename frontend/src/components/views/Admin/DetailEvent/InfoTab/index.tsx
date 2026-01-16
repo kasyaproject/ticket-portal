@@ -224,7 +224,7 @@ const InfoTab = (props: PropTypes) => {
               render={({ field }) => (
                 <Select
                   {...field}
-                  label="Status Event"
+                  label="Featured Event"
                   variant="bordered"
                   isInvalid={errorsUpdateInfo.isFetured !== undefined}
                   errorMessage={errorsUpdateInfo.isFetured?.message}

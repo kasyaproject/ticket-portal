@@ -39,7 +39,12 @@ const DetailEventTicket = (props: PropTypes) => {
             </div>
           }
         >
-          <p>{dataTicket?.description}</p>
+          <div className="flex flex-col items-start justify-between gap-2">
+            <p className="text-gray-500 text-sm font-semibold text-nowrap">
+              {dataTicket?.quantity} ticket left
+            </p>
+            <p>{dataTicket?.description} </p>
+          </div>
         </AccordionItem>
       </Accordion>
 
